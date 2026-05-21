@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FiShoppingBag, FiHeart, FiUser, FiSearch, FiMenu, FiX, FiLogOut } from 'react-icons/fi';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
@@ -7,6 +7,11 @@ import { AuthContext } from '../context/AuthContext';
 const Header = () => {
   const { cartItemCount } = useContext(CartContext);
   const { user, logout } = useContext(AuthContext);
+  const location = useLocation();
+
+  if (location.pathname.startsWith('/admin')) {
+    return null;
+  }
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -28,16 +33,7 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-8 font-medium">
           <Link to="/" className="text-gray-700 hover:text-brand-green transition-colors">Home</Link>
           <Link to="/products" className="text-gray-700 hover:text-brand-green transition-colors">Products</Link>
-          <div className="relative group cursor-pointer">
-            <span className="text-gray-700 hover:text-brand-green transition-colors">Categories</span>
-            <div className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-              <ul className="py-2">
-                <li><Link to="/products?category=Fresh Fruits" className="block px-4 py-2 hover:bg-brand-light text-gray-700">Fresh Fruits</Link></li>
-                <li><Link to="/products?category=Vegetables" className="block px-4 py-2 hover:bg-brand-light text-gray-700">Vegetables</Link></li>
-                <li><Link to="/products?category=Organic Products" className="block px-4 py-2 hover:bg-brand-light text-gray-700">Organic Products</Link></li>
-              </ul>
-            </div>
-          </div>
+          <Link to="/categories" className="text-gray-700 hover:text-brand-green transition-colors">Categories</Link>
           <Link to="#" className="text-gray-700 hover:text-brand-green transition-colors">Pages</Link>
           <Link to="#" className="text-gray-700 hover:text-brand-green transition-colors">Blog</Link>
         </nav>
@@ -60,7 +56,9 @@ const Header = () => {
           
           {user ? (
             <div className="relative group cursor-pointer hidden sm:flex items-center gap-2">
-              <span className="text-sm font-medium text-brand-dark bg-brand-light px-3 py-1 rounded-full">{user.name.split(' ')[0]}</span>
+              <Link to="/profile" className="text-sm font-medium text-brand-dark bg-brand-light px-3 py-1 rounded-full hover:bg-brand-green hover:text-white transition-colors">
+                {user.name.split(' ')[0]}
+              </Link>
               <button onClick={handleLogout} className="text-gray-700 hover:text-red-500 transition-colors" title="Logout">
                 <FiLogOut size={20} />
               </button>
@@ -102,12 +100,13 @@ const Header = () => {
           <Link to="/" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
           <Link to="/products" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
           
-          <Link to="/products?category=Fresh Fruits" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Category: Fresh Fruits</Link>
-          <Link to="/products?category=Vegetables" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Category: Vegetables</Link>
+          <Link to="/categories" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Categories</Link>
           
           {user ? (
             <div className="border-t pt-4 mt-2 flex flex-col gap-4">
-              <span className="text-sm font-medium text-brand-dark">Hi, {user.name}</span>
+              <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-medium text-brand-dark hover:text-brand-green">
+                Hi, {user.name} (Profile)
+              </Link>
               <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="text-red-500 flex items-center gap-2 text-left">
                 <FiLogOut size={20} /> <span className="text-sm font-medium">Logout</span>
               </button>

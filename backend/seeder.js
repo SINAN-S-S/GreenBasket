@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const Product = require('./models/Product');
+const User = require('./models/User');
 
 dotenv.config();
 
@@ -93,6 +94,15 @@ const products = [
 const importData = async () => {
   try {
     await Product.deleteMany();
+    await User.deleteMany();
+
+    await User.create({
+      name: 'Admin User',
+      email: 'admin@greenbasket.com',
+      password: 'password123',
+      isAdmin: true,
+    });
+
     await Product.insertMany(products);
     console.log('Data Imported!');
     process.exit();
@@ -105,6 +115,7 @@ const importData = async () => {
 const destroyData = async () => {
   try {
     await Product.deleteMany();
+    await User.deleteMany();
     console.log('Data Destroyed!');
     process.exit();
   } catch (error) {

@@ -1,16 +1,56 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import { AuthContext } from './AuthContext';
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const { user } = useContext(AuthContext);
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
+  // Fetch cart from DB when user logs in
+  useEffect(() => {
+    if (user) {
+      const fetchCart = async () => {
+        try {
+          const config = { headers: { Authorization: `Bearer ${user.token}` } };
+          const { data } = await axios.get('http://localhost:5000/api/users/profile', config);
+          if (data.cart && data.cart.length > 0) {
+            // Map the DB cart format ({ product: object, qty: number }) to local format ({ ...product, qty: number })
+            const mappedCart = data.cart.map(item => ({
+              ...item.product,
+              qty: item.qty
+            }));
+            setCart(mappedCart);
+          }
+        } catch (error) {
+          console.error("Error fetching cart from DB", error);
+        }
+      };
+      fetchCart();
+    }
+  }, [user]);
+
+  // Sync cart to local storage and DB whenever it changes
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    
+    if (user) {
+      const syncToDB = async () => {
+        try {
+          const config = { headers: { Authorization: `Bearer ${user.token}` } };
+          const dbCart = cart.map(item => ({ product: item._id, qty: item.qty }));
+          await axios.put('http://localhost:5000/api/users/cart', { cart: dbCart }, config);
+        } catch (error) {
+          console.error("Error syncing cart to DB", error);
+        }
+      };
+      syncToDB();
+    }
+  }, [cart, user]);
 
   const addToCart = (product) => {
     setCart((prevCart) => {
