@@ -1,11 +1,19 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FiShoppingBag, FiHeart, FiUser, FiSearch, FiMenu, FiX } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiShoppingBag, FiHeart, FiUser, FiSearch, FiMenu, FiX, FiLogOut } from 'react-icons/fi';
 import { CartContext } from '../context/CartContext';
+import { AuthContext } from '../context/AuthContext';
 
 const Header = () => {
   const { cartItemCount } = useContext(CartContext);
+  const { user, logout } = useContext(AuthContext);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
@@ -49,9 +57,20 @@ const Header = () => {
           <button className="text-gray-700 hover:text-brand-green transition-colors hidden sm:block">
             <FiHeart size={22} />
           </button>
-          <button className="text-gray-700 hover:text-brand-green transition-colors hidden sm:block">
-            <FiUser size={22} />
-          </button>
+          
+          {user ? (
+            <div className="relative group cursor-pointer hidden sm:flex items-center gap-2">
+              <span className="text-sm font-medium text-brand-dark bg-brand-light px-3 py-1 rounded-full">{user.name.split(' ')[0]}</span>
+              <button onClick={handleLogout} className="text-gray-700 hover:text-red-500 transition-colors" title="Logout">
+                <FiLogOut size={20} />
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="text-gray-700 hover:text-brand-green transition-colors hidden sm:block" title="Login">
+              <FiUser size={22} />
+            </Link>
+          )}
+
           <Link to="/cart" className="relative text-gray-700 hover:text-brand-green transition-colors">
             <FiShoppingBag size={22} />
             {cartItemCount > 0 && (
@@ -83,21 +102,23 @@ const Header = () => {
           <Link to="/" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
           <Link to="/products" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
           
-          {/* Missing Links */}
           <Link to="/products?category=Fresh Fruits" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Category: Fresh Fruits</Link>
           <Link to="/products?category=Vegetables" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Category: Vegetables</Link>
-          <Link to="#" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Pages</Link>
-          <Link to="#" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
           
-          {/* Missing Wishlist and Profile */}
-          <div className="border-t pt-4 mt-2 flex gap-6">
-            <button className="text-gray-700 flex items-center gap-2">
-              <FiHeart size={20} /> <span className="text-sm font-medium">Wishlist</span>
-            </button>
-            <button className="text-gray-700 flex items-center gap-2">
-              <FiUser size={20} /> <span className="text-sm font-medium">Profile</span>
-            </button>
-          </div>
+          {user ? (
+            <div className="border-t pt-4 mt-2 flex flex-col gap-4">
+              <span className="text-sm font-medium text-brand-dark">Hi, {user.name}</span>
+              <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="text-red-500 flex items-center gap-2 text-left">
+                <FiLogOut size={20} /> <span className="text-sm font-medium">Logout</span>
+              </button>
+            </div>
+          ) : (
+            <div className="border-t pt-4 mt-2 flex gap-6">
+              <Link to="/login" className="text-gray-700 flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+                <FiUser size={20} /> <span className="text-sm font-medium">Login / Sign up</span>
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </header>

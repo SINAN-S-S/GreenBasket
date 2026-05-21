@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { FiFilter } from 'react-icons/fi';
-import { productsData } from '../data/products';
+import axios from 'axios';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -19,27 +19,30 @@ const Products = () => {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
-    const fetchProducts = () => {
+    const fetchProducts = async () => {
       setLoading(true);
-      
-      let filtered = [...productsData];
-      
-      if (category) {
-        filtered = filtered.filter(p => p.type === category);
+      try {
+        let url = 'http://localhost:5000/api/products?';
+        
+        if (category && category !== 'All') {
+          url += `category=${encodeURIComponent(category)}&`;
+        }
+        
+        if (searchParam) {
+          url += `keyword=${encodeURIComponent(searchParam)}&`;
+        }
+        
+        if (sort) {
+          url += `sort=${sort}&`;
+        }
+        
+        const { data } = await axios.get(url);
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
       }
-      
-      if (searchParam) {
-        filtered = filtered.filter(p => p.name.toLowerCase().includes(searchParam.toLowerCase()));
-      }
-      
-      if (sort === 'price_asc') {
-        filtered.sort((a, b) => a.price - b.price);
-      } else if (sort === 'price_desc') {
-        filtered.sort((a, b) => b.price - a.price);
-      }
-
-      setProducts(filtered);
-      setLoading(false);
     };
     fetchProducts();
   }, [category, sort, searchParam]);
