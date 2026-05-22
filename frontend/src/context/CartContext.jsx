@@ -56,10 +56,14 @@ export const CartProvider = ({ children }) => {
     setCart((prevCart) => {
       const existing = prevCart.find((item) => item._id === product._id);
       if (existing) {
+        if (existing.qty >= product.countInStock) {
+          return prevCart;
+        }
         return prevCart.map((item) =>
           item._id === product._id ? { ...item, qty: item.qty + 1 } : item
         );
       }
+      if (product.countInStock === 0) return prevCart;
       return [...prevCart, { ...product, qty: 1 }];
     });
   };
@@ -70,7 +74,7 @@ export const CartProvider = ({ children }) => {
 
   const updateQty = (id, qty) => {
     setCart((prevCart) =>
-      prevCart.map((item) => (item._id === id ? { ...item, qty } : item))
+      prevCart.map((item) => (item._id === id ? { ...item, qty: Math.min(qty, item.countInStock || qty) } : item))
     );
   };
 

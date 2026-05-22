@@ -1,20 +1,54 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiTrash2, FiMinus, FiPlus, FiArrowRight } from 'react-icons/fi';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Cart = () => {
   const { cart, removeFromCart, updateQty, cartTotal, clearCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [checkingOut, setCheckingOut] = useState(false);
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!user) {
-      alert("Please login to proceed to checkout!");
-      window.location.href = '/login';
+      Swal.fire('Login Required', 'Please login to proceed to checkout!', 'info');
+      navigate('/login');
       return;
     }
-    alert("Checkout functionality coming soon!");
+    
+    setCheckingOut(true);
+    try {
+      const config = { headers: { Authorization: `Bearer ${user.token}` } };
+      
+      const orderItems = cart.map(item => ({
+        product: item._id,
+        name: item.name,
+        image: item.image,
+        price: item.price,
+        qty: item.qty
+      }));
+
+      await axios.post('http://localhost:5000/api/orders', {
+        orderItems,
+        totalPrice: cartTotal
+      }, config);
+
+      clearCart();
+      Swal.fire({
+        title: 'Order Placed!',
+        text: 'Your order has been successfully placed. Cash on Delivery.',
+        icon: 'success',
+        confirmButtonColor: '#22c55e'
+      });
+      navigate('/products');
+    } catch (error) {
+      Swal.fire('Error', error.response?.data?.message || 'Failed to place order', 'error');
+    } finally {
+      setCheckingOut(false);
+    }
   };
 
   return (
@@ -40,9 +74,14 @@ const Cart = () => {
                     <img src={item.image} alt={item.name} className="w-24 h-24 object-cover rounded-xl bg-gray-50" />
                     
                     <div className="flex-1 text-center sm:text-left">
-                      <h3 className="text-lg font-bold text-gray-800 mb-1">{item.name}</h3>
+                      <Link to={`/product/${item._id}`}>
+                        <h3 className="text-lg font-bold text-gray-800 mb-1 hover:text-brand-green transition-colors">{item.name}</h3>
+                      </Link>
                       <p className="text-sm text-gray-500 mb-2">{item.type}</p>
-                      <p className="text-brand-green font-bold">₹{item.price}</p>
+                      <p className="text-brand-green font-bold flex items-center gap-1 justify-center sm:justify-start">
+                        ₹{item.price} 
+                        <span className="text-xs text-gray-400 font-medium">/ {item.unit || '1kg'}</span>
+                      </p>
                     </div>
 
                     <div className="flex items-center gap-4">
@@ -56,9 +95,12 @@ const Cart = () => {
                         <span className="w-8 text-center font-medium text-gray-800">{item.qty}</span>
                         <button 
                           onClick={() => updateQty(item._id, item.qty + 1)}
-                          className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-brand-green transition-colors"
+                          disabled={item.qty >= item.countInStock}
+                          className={`w-8 h-8 flex items-center justify-center transition-colors ${
+                            item.qty >= item.countInStock ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:text-brand-green'
+                          }`}
                         >
-                          <FiPlus size={16} />
+                          <FiPlus size={14} />
                         </button>
                       </div>
                       
@@ -113,9 +155,12 @@ const Cart = () => {
 
               <button 
                 onClick={handleCheckout}
-                className="w-full flex items-center justify-center gap-2 bg-brand-green text-white py-4 rounded-xl hover:bg-brand-dark transition-colors font-bold shadow-md"
+                disabled={checkingOut}
+                className="w-full flex items-center justify-center gap-2 bg-brand-green text-white py-4 rounded-xl hover:bg-brand-dark transition-colors font-bold shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
-                Proceed to Checkout <FiArrowRight />
+                {checkingOut ? 'Processing...' : (
+                  <>Proceed to Checkout <FiArrowRight /></>
+                )}
               </button>
             </div>
           </div>

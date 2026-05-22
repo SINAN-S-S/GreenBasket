@@ -14,7 +14,17 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    unit: {
+      type: String,
+      required: true,
+      default: '1kg',
+    },
     price: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    countInStock: {
       type: Number,
       required: true,
       default: 0,
@@ -26,6 +36,10 @@ const productSchema = mongoose.Schema(
     discount: {
       type: Number,
       default: 0, // Discount percentage
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
     }
   },
   {

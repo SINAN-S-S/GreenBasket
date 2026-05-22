@@ -1,17 +1,23 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiEdit2, FiTrash2, FiPlus, FiFilter, FiArchive } from 'react-icons/fi';
 import { AuthContext } from '../context/AuthContext';
+import Swal from 'sweetalert2';
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState('');
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/products');
+      const url = category 
+        ? `http://localhost:5000/api/products?category=${encodeURIComponent(category)}`
+        : 'http://localhost:5000/api/products';
+      const { data } = await axios.get(url);
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -22,50 +28,76 @@ const AdminProducts = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [category]);
 
   const deleteHandler = async (id) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
+    const result = await Swal.fire({
+      title: 'Move to Trash?',
+      text: "This product will be hidden from the store. You can restore it later.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#f59e0b',
+      cancelButtonColor: '#9ca3af',
+      confirmButtonText: 'Yes, trash it!'
+    });
+
+    if (result.isConfirmed) {
       try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        };
+        const config = { headers: { Authorization: `Bearer ${user.token}` } };
         await axios.delete(`http://localhost:5000/api/products/${id}`, config);
+        Swal.fire('Trashed!', 'Product has been moved to trash.', 'success');
         fetchProducts();
       } catch (error) {
-        console.error('Error deleting product:', error);
-        alert(error.response?.data?.message || 'Error deleting product');
+        Swal.fire('Error', error.response?.data?.message || 'Error deleting product', 'error');
       }
     }
   };
 
   const createProductHandler = async () => {
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
+      const config = { headers: { Authorization: `Bearer ${user.token}` } };
       const { data } = await axios.post('http://localhost:5000/api/products', {}, config);
-      window.location.href = `/admin/products/${data._id}/edit`;
+      navigate(`/admin/products/${data._id}/edit`);
     } catch (error) {
-      console.error('Error creating product:', error);
-      alert(error.response?.data?.message || 'Error creating product');
+      Swal.fire('Error', error.response?.data?.message || 'Error creating product', 'error');
     }
   };
 
+  const categories = ['All', 'Fresh Fruits', 'Vegetables', 'Organic Products', 'Fruit Juices'];
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">Products</h1>
-        <button 
-          onClick={createProductHandler}
-          className="flex items-center gap-2 bg-brand-green text-white px-5 py-2.5 rounded-xl hover:bg-brand-dark transition-colors shadow-md font-medium"
-        >
-          <FiPlus /> Add Product
-        </button>
+        
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="relative">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value === 'All' ? '' : e.target.value)}
+              className="appearance-none bg-white border border-gray-200 text-gray-700 py-2.5 pl-10 pr-8 rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-green focus:border-brand-green shadow-sm"
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+            <FiFilter className="absolute left-3 top-3.5 text-gray-400" />
+          </div>
+
+          <Link 
+            to="/admin/products/restore"
+            className="flex items-center gap-2 bg-gray-100 text-gray-700 px-5 py-2.5 rounded-xl hover:bg-gray-200 transition-colors shadow-sm font-medium"
+          >
+            <FiArchive /> Trash
+          </Link>
+
+          <button 
+            onClick={createProductHandler}
+            className="flex items-center gap-2 bg-brand-green text-white px-5 py-2.5 rounded-xl hover:bg-brand-dark transition-colors shadow-md font-medium"
+          >
+            <FiPlus /> Add Product
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -76,20 +108,35 @@ const AdminProducts = () => {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
-                  <th className="py-4 px-6 font-medium">ID</th>
+                  <th className="py-4 px-6 font-medium">IMAGE</th>
                   <th className="py-4 px-6 font-medium">NAME</th>
-                  <th className="py-4 px-6 font-medium">PRICE</th>
                   <th className="py-4 px-6 font-medium">CATEGORY</th>
+                  <th className="py-4 px-6 font-medium">STOCK</th>
+                  <th className="py-4 px-6 font-medium">PRICE</th>
                   <th className="py-4 px-6 font-medium text-right">ACTIONS</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {products.map((product) => (
                   <tr key={product._id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="py-4 px-6 text-sm text-gray-500">{product._id.substring(18, 24)}</td>
+                    <td className="py-4 px-6 text-sm text-gray-500">
+                      <img src={product.image} alt={product.name} className="w-12 h-12 object-cover rounded-lg shadow-sm border border-gray-100" />
+                    </td>
                     <td className="py-4 px-6 font-medium text-gray-800">{product.name}</td>
-                    <td className="py-4 px-6 text-brand-green font-bold">₹{product.price}</td>
                     <td className="py-4 px-6 text-gray-600">{product.type}</td>
+                    <td className="py-4 px-6">
+                      <span className={`px-2 py-1 rounded-md text-xs font-bold ${
+                        product.countInStock > 0 ? 'bg-green-100 text-brand-green' : 'bg-red-100 text-red-500'
+                      }`}>
+                        {product.countInStock > 0 ? `${product.countInStock} in stock` : 'Out of stock'}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6 font-bold text-gray-800">
+                      ₹{product.price}
+                      <span className="text-xs text-gray-400 block font-normal line-through">
+                        {product.discount > 0 ? `₹${Math.round(product.price * (1 + product.discount/100))}` : ''}
+                      </span>
+                    </td>
                     <td className="py-4 px-6">
                       <div className="flex justify-end gap-3">
                         <Link 

@@ -1,11 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { FiX } from 'react-icons/fi';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   
   const { login, user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -18,19 +20,43 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setErrorMsg('');
+    setIsLoading(true);
+    
     const res = await login(email, password);
+    setIsLoading(false);
+    
     if (!res.success) {
-      setErrorMsg(res.error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: res.error || 'Invalid email or password',
+        confirmButtonColor: '#f59e0b'
+      });
+    } else {
+      Swal.fire({
+        icon: 'success',
+        title: 'Welcome Back!',
+        text: 'You have successfully logged in.',
+        confirmButtonColor: '#22c55e',
+        timer: 1500,
+        showConfirmButton: false
+      });
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-brand-light relative">
-      
-      <div className="max-w-md w-full bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 space-y-8 relative z-10">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-900/80 backdrop-blur-sm">
+      <div className="max-w-md w-full bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-8 space-y-8 relative z-10 animate-fade-in-up">
+        {/* Close Button */}
+        <button 
+          onClick={() => navigate('/')}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors"
+        >
+          <FiX size={20} />
+        </button>
+
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-2 text-center text-3xl font-extrabold text-brand-dark">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
@@ -41,11 +67,7 @@ const Login = () => {
           </p>
         </div>
         
-        {errorMsg && (
-          <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm text-center border border-red-100">
-            {errorMsg}
-          </div>
-        )}
+
 
         <form className="mt-8 space-y-6" onSubmit={submitHandler}>
           <div className="rounded-md shadow-sm space-y-4">
@@ -83,12 +105,23 @@ const Login = () => {
             </div>
           </div>
 
+          <div className="flex items-center justify-end">
+            <div className="text-sm">
+              <Link to="/forgot-password" className="font-medium text-brand-green hover:text-brand-dark transition-colors">
+                Lost your password?
+              </Link>
+            </div>
+          </div>
+
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-brand-green hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green transition-colors shadow-md"
+              disabled={isLoading}
+              className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white transition-colors shadow-md ${
+                isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-brand-green hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green'
+              }`}
             >
-              Sign in
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
           </div>
         </form>

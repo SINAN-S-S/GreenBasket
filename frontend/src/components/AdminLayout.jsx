@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { FiHome, FiBox, FiUsers, FiSettings, FiLogOut } from 'react-icons/fi';
+import { FiHome, FiBox, FiUsers, FiSettings, FiLogOut, FiArrowLeft, FiShoppingBag } from 'react-icons/fi';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
@@ -11,6 +11,8 @@ const AdminLayout = () => {
   const navItems = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: <FiHome /> },
     { name: 'Products', path: '/admin/products', icon: <FiBox /> },
+    { name: 'Orders', path: '/admin/orders', icon: <FiShoppingBag /> },
+    { name: 'Users', path: '/admin/users', icon: <FiUsers /> },
   ];
 
   return (
@@ -43,7 +45,14 @@ const AdminLayout = () => {
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-100">
+        <div className="p-4 border-t border-gray-100 space-y-2">
+          <Link 
+            to="/"
+            className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-gray-600 hover:bg-gray-50 transition-colors text-left font-medium"
+          >
+            <FiArrowLeft />
+            Return to Store
+          </Link>
           <button 
             onClick={logout}
             className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-red-500 hover:bg-red-50 transition-colors text-left"
