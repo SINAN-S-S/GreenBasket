@@ -28,7 +28,8 @@ const Cart = () => {
         name: item.name,
         image: item.image,
         price: item.price,
-        qty: item.qty
+        qty: item.qty,
+        unit: item.unit || '1kg'
       }));
 
       await axios.post('http://localhost:5000/api/orders', {

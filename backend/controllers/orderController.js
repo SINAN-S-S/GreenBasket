@@ -47,6 +47,18 @@ const getOrders = async (req, res) => {
   }
 };
 
+// @desc    Get logged in user orders
+// @route   GET /api/orders/myorders
+// @access  Private
+const getMyOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+};
+
 // @desc    Update order to delivered
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
@@ -71,5 +83,6 @@ const updateOrderToDelivered = async (req, res) => {
 module.exports = {
   addOrderItems,
   getOrders,
+  getMyOrders,
   updateOrderToDelivered,
 };

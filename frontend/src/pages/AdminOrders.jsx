@@ -80,6 +80,7 @@ const AdminOrders = () => {
                   <th className="py-4 px-6 font-medium">ORDER ID</th>
                   <th className="py-4 px-6 font-medium">USER</th>
                   <th className="py-4 px-6 font-medium">DATE</th>
+                  <th className="py-4 px-6 font-medium">ITEMS</th>
                   <th className="py-4 px-6 font-medium">TOTAL</th>
                   <th className="py-4 px-6 font-medium">PAID</th>
                   <th className="py-4 px-6 font-medium">DELIVERED</th>
@@ -96,6 +97,15 @@ const AdminOrders = () => {
                     </td>
                     <td className="py-4 px-6 text-gray-600">
                       {new Date(order.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="py-4 px-6 text-sm text-gray-600">
+                      <div className="max-h-20 overflow-y-auto">
+                        {order.orderItems?.map((item, idx) => (
+                          <div key={idx} className="whitespace-nowrap">
+                            <span className="font-bold">{item.qty}x</span> {item.name} <span className="text-xs text-gray-400">({item.unit || '1kg'})</span>
+                          </div>
+                        ))}
+                      </div>
                     </td>
                     <td className="py-4 px-6 font-bold text-brand-green">₹{order.totalPrice}</td>
                     <td className="py-4 px-6">

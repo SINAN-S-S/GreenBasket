@@ -9,7 +9,7 @@ const PromotionalBanner = () => {
         {/* Banner 1 */}
         <div className="bg-orange-50 rounded-3xl overflow-hidden relative group">
           <img 
-            src="https://images.unsplash.com/photo-1622826359551-7d124ec682c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+            src="/images/promo_juice.png" 
             alt="Fresh Juices" 
             className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-700"
           />
@@ -25,7 +25,7 @@ const PromotionalBanner = () => {
         {/* Banner 2 */}
         <div className="bg-green-50 rounded-3xl overflow-hidden relative group">
           <img 
-            src="https://images.unsplash.com/photo-1543168256-4154004ceead?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+            src="/images/promo_veg.png" 
             alt="Organic Vegetables" 
             className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-700"
           />

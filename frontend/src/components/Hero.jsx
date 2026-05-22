@@ -12,30 +12,33 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="lg:col-span-2 bg-gradient-to-r from-brand-cream to-green-50 rounded-3xl p-8 sm:p-12 flex flex-col justify-center relative overflow-hidden h-[400px]"
+          className="lg:col-span-2 rounded-3xl p-8 sm:p-12 flex flex-col justify-center relative overflow-hidden h-[400px]"
         >
-          <div className="relative z-10 max-w-md">
-            <span className="inline-block px-4 py-1 bg-brand-green/10 text-brand-green font-semibold rounded-full text-sm mb-4">
+          {/* Full Background Image */}
+          <motion.img 
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
+            src="/images/hero_main.png" 
+            alt="Fresh Groceries Background" 
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+          
+          {/* Gradient Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-green-900/80 via-green-900/60 to-transparent z-10"></div>
+
+          <div className="relative z-20 max-w-md">
+            <span className="inline-block px-4 py-1 bg-white/20 backdrop-blur-md text-white font-semibold rounded-full text-sm mb-4 border border-white/30">
               100% Organic Products
             </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-brand-dark mb-4 leading-tight">
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
               Fresh & Healthy <br/> Organic Food
             </h1>
-            <p className="text-gray-600 mb-8">
+            <p className="text-green-50 mb-8 drop-shadow-md text-lg">
               Get the freshest organic grocery delivery to your doorstep. Healthy living starts here!
             </p>
-            <Link to="/products" className="inline-flex items-center gap-2 bg-brand-green text-white px-6 py-3 rounded-full font-medium hover:bg-brand-dark transition-colors w-fit">
+            <Link to="/products" className="inline-flex items-center gap-2 bg-brand-orange text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition-colors w-fit shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
               Shop Now <FiArrowRight />
             </Link>
-          </div>
-          {/* Background Image decoration */}
-          <div className="absolute right-0 bottom-0 w-1/2 h-full hidden sm:block">
-            <img 
-              src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-              alt="Fresh Groceries" 
-              className="object-cover h-full w-full mask-image-gradient"
-              style={{ clipPath: 'polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%)' }}
-            />
           </div>
         </motion.div>
 
@@ -52,9 +55,9 @@ const Hero = () => {
               <Link to="/products" className="text-brand-orange font-medium text-sm hover:underline">Shop Now</Link>
             </div>
             <img 
-              src="https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&w=300&q=80" 
+              src="/images/hero_oranges.png" 
               alt="Oranges" 
-              className="absolute -right-4 -bottom-4 w-32 h-32 object-cover rounded-full shadow-lg"
+              className="absolute -right-4 -bottom-4 w-36 h-36 object-cover rounded-full drop-shadow-xl"
             />
           </motion.div>
 
@@ -69,9 +72,9 @@ const Hero = () => {
               <Link to="/products" className="text-blue-600 font-medium text-sm hover:underline">Shop Now</Link>
             </div>
             <img 
-              src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=300&q=80" 
+              src="/images/hero_veggies.png" 
               alt="Carrots" 
-              className="absolute -right-4 -bottom-4 w-32 h-32 object-cover rounded-full shadow-lg"
+              className="absolute -right-4 -bottom-4 w-36 h-36 object-cover rounded-full drop-shadow-xl"
             />
           </motion.div>
         </div>
