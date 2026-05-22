@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import { FiUser, FiMail, FiLock, FiSave } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiSave, FiPackage, FiTruck, FiCheckCircle } from 'react-icons/fi';
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
@@ -220,6 +220,51 @@ const Profile = () => {
                     </div>
                   ))}
                 </div>
+
+                {/* Order Tracking Bar */}
+                <div className="mt-6 pt-6 border-t border-gray-100">
+                  <h4 className="text-sm font-bold text-gray-700 mb-6">Track Order</h4>
+                  <div className="relative flex justify-between items-center w-full px-4 sm:px-8">
+                    {/* Background Line */}
+                    <div className="absolute left-4 right-4 top-5 -translate-y-1/2 h-1 bg-gray-200 z-0 rounded-full"></div>
+                    {/* Active Line */}
+                    <div 
+                      className={`absolute left-4 top-5 -translate-y-1/2 h-1 bg-brand-green z-0 rounded-full transition-all duration-700`} 
+                      style={{ width: order.isDelivered ? 'calc(100% - 2rem)' : 'calc(50% - 1rem)' }}
+                    ></div>
+                    
+                    {/* Step 1: Placed */}
+                    <div className="relative z-10 flex flex-col items-center group">
+                      <div className="w-10 h-10 rounded-full bg-brand-green text-white flex items-center justify-center shadow-md border-4 border-white mb-2">
+                        <FiPackage />
+                      </div>
+                      <span className="text-xs font-bold text-gray-800">Placed</span>
+                    </div>
+
+                    {/* Step 2: Processing */}
+                    <div className="relative z-10 flex flex-col items-center group">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md border-4 border-white mb-2 transition-colors ${
+                        order.isDelivered ? 'bg-brand-green text-white' : 'bg-brand-green text-white animate-pulse shadow-brand-green/30'
+                      }`}>
+                        <FiTruck />
+                      </div>
+                      <span className={`text-xs font-bold ${order.isDelivered ? 'text-gray-800' : 'text-brand-green'}`}>
+                        {order.isDelivered ? 'Shipped' : 'Processing'}
+                      </span>
+                    </div>
+
+                    {/* Step 3: Delivered */}
+                    <div className="relative z-10 flex flex-col items-center group">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md border-4 border-white mb-2 transition-colors ${
+                        order.isDelivered ? 'bg-brand-green text-white shadow-brand-green/30' : 'bg-gray-100 text-gray-400'
+                      }`}>
+                        <FiCheckCircle />
+                      </div>
+                      <span className={`text-xs font-bold ${order.isDelivered ? 'text-gray-800' : 'text-gray-400'}`}>Delivered</span>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             ))}
           </div>
