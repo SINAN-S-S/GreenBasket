@@ -16,6 +16,8 @@ const Products = () => {
 
   const [category, setCategory] = useState(categoryParam || '');
   const [sort, setSort] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
@@ -23,19 +25,27 @@ const Products = () => {
       setLoading(true);
       try {
         let url = 'http://localhost:5000/api/products?';
-        
+
         if (category && category !== 'All') {
           url += `category=${encodeURIComponent(category)}&`;
         }
-        
+
         if (searchParam) {
           url += `keyword=${encodeURIComponent(searchParam)}&`;
         }
-        
+
         if (sort) {
           url += `sort=${sort}&`;
         }
-        
+
+        if (minPrice) {
+          url += `minPrice=${minPrice}&`;
+        }
+
+        if (maxPrice) {
+          url += `maxPrice=${maxPrice}&`;
+        }
+
         const { data } = await axios.get(url);
         setProducts(data);
       } catch (error) {
@@ -45,7 +55,7 @@ const Products = () => {
       }
     };
     fetchProducts();
-  }, [category, sort, searchParam]);
+  }, [category, sort, searchParam, minPrice, maxPrice]);
 
   const categories = ['All', 'Fresh Fruits', 'Vegetables', 'Organic Products', 'Fruit Juices'];
 
@@ -63,7 +73,7 @@ const Products = () => {
         {/* Sidebar Filters */}
         <div className="w-full md:w-64 flex-shrink-0">
           {/* Mobile Filter Toggle */}
-          <button 
+          <button
             className="md:hidden w-full bg-brand-light text-brand-dark font-bold py-3 px-4 rounded-xl mb-4 flex items-center justify-center gap-2"
             onClick={() => setShowMobileFilters(!showMobileFilters)}
           >
@@ -74,13 +84,13 @@ const Products = () => {
             <h3 className="font-bold text-gray-800 text-lg mb-4 flex items-center gap-2">
               <FiFilter /> Filters
             </h3>
-            
+
             <div className="mb-6">
               <h4 className="font-semibold text-gray-700 mb-3">Categories</h4>
               <ul className="space-y-2">
                 {categories.map((cat) => (
                   <li key={cat}>
-                    <button 
+                    <button
                       onClick={() => setCategory(cat === 'All' ? '' : cat)}
                       className={`text-sm ${category === cat || (cat === 'All' && !category) ? 'text-brand-green font-bold' : 'text-gray-500 hover:text-brand-green'}`}
                     >
@@ -90,11 +100,34 @@ const Products = () => {
                 ))}
               </ul>
             </div>
-            
+
+            <div className="mb-6">
+              <h4 className="font-semibold text-gray-700 mb-3">Price Range (₹)</h4>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="Min"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-green"
+                />
+                <span className="text-gray-400">-</span>
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="Max"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-green"
+                />
+              </div>
+            </div>
+
             <div>
               <h4 className="font-semibold text-gray-700 mb-3">Sort By</h4>
-              <select 
-                value={sort} 
+              <select
+                value={sort}
                 onChange={(e) => setSort(e.target.value)}
                 className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-green"
               >

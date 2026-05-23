@@ -7,17 +7,23 @@ const getProducts = async (req, res) => {
   try {
     const keyword = req.query.keyword
       ? {
-          name: {
-            $regex: req.query.keyword,
-            $options: 'i',
-          },
-        }
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i',
+        },
+      }
       : {};
 
     const category = req.query.category ? { type: req.query.category } : {};
-    
+
+    // Price filter
+    const priceFilter = {};
+    if (req.query.minPrice) priceFilter.$gte = Number(req.query.minPrice);
+    if (req.query.maxPrice) priceFilter.$lte = Number(req.query.maxPrice);
+    const price = Object.keys(priceFilter).length > 0 ? { price: priceFilter } : {};
+
     // Combine filters and exclude soft-deleted
-    const filter = { ...keyword, ...category, isDeleted: { $ne: true } };
+    const filter = { ...keyword, ...category, ...price, isDeleted: { $ne: true } };
 
     // Sorting
     let sort = {};

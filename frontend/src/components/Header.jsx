@@ -74,15 +74,15 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-8 font-medium">
           <Link to="/" className="text-gray-700 hover:text-brand-green transition-colors">Home</Link>
           <Link to="/products" className="text-gray-700 hover:text-brand-green transition-colors">Products</Link>
-          <Link to="#" className="text-gray-700 hover:text-brand-green transition-colors">Pages</Link>
-          <Link to="#" className="text-gray-700 hover:text-brand-green transition-colors">Blog</Link>
+          <Link to="/about" className="text-gray-700 hover:text-brand-green transition-colors">About</Link>
+          <Link to="/contact" className="text-gray-700 hover:text-brand-green transition-colors">Contact</Link>
         </nav>
 
         <div className="hidden lg:flex items-center relative">
           <form onSubmit={handleSearchSubmit} className="flex items-center bg-gray-100 rounded-full px-4 py-2 w-64 border border-transparent focus-within:border-brand-green focus-within:bg-white transition-all z-20">
-            <input 
-              type="text" 
-              placeholder="Search products..." 
+            <input
+              type="text"
+              placeholder="Search products..."
               value={searchKeyword}
               onChange={handleSearchChange}
               onFocus={() => searchKeyword.length > 0 && setShowSuggestions(true)}
@@ -91,13 +91,13 @@ const Header = () => {
             />
             <button type="submit"><FiSearch className="text-gray-500 hover:text-brand-green cursor-pointer" /></button>
           </form>
-          
+
           {/* Autocomplete Dropdown */}
           {showSuggestions && suggestions.length > 0 && (
             <div className="absolute top-full mt-2 w-full bg-white border border-gray-100 shadow-xl rounded-xl overflow-hidden z-50 max-h-60 overflow-y-auto">
               {suggestions.map((item) => (
-                <div 
-                  key={item._id} 
+                <div
+                  key={item._id}
                   onClick={() => handleSuggestionClick(item.name)}
                   className="px-4 py-3 hover:bg-green-50 cursor-pointer flex items-center gap-3 transition-colors border-b border-gray-50 last:border-0"
                 >
@@ -122,7 +122,7 @@ const Header = () => {
               </span>
             )}
           </Link>
-          
+
           {user ? (
             <div className="relative group cursor-pointer hidden sm:flex items-center gap-2">
               {user.isAdmin && (
@@ -151,7 +151,7 @@ const Header = () => {
               </span>
             )}
           </Link>
-          <button 
+          <button
             className="md:hidden text-gray-700"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -164,9 +164,9 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t p-4 flex flex-col gap-4 relative">
           <form onSubmit={handleSearchSubmit} className="flex items-center bg-gray-100 rounded-full px-4 py-2 mb-2 relative z-20">
-            <input 
-              type="text" 
-              placeholder="Search products..." 
+            <input
+              type="text"
+              placeholder="Search products..."
               value={searchKeyword}
               onChange={handleSearchChange}
               onFocus={() => searchKeyword.length > 0 && setShowSuggestions(true)}
@@ -175,12 +175,12 @@ const Header = () => {
             />
             <button type="submit"><FiSearch className="text-gray-500" /></button>
           </form>
-          
+
           {showSuggestions && suggestions.length > 0 && (
             <div className="absolute top-16 left-4 right-4 bg-white border border-gray-100 shadow-xl rounded-xl overflow-hidden z-50 max-h-60 overflow-y-auto">
               {suggestions.map((item) => (
-                <div 
-                  key={item._id} 
+                <div
+                  key={item._id}
                   onClick={() => { handleSuggestionClick(item.name); setIsMobileMenuOpen(false); }}
                   className="px-4 py-3 hover:bg-green-50 cursor-pointer flex items-center gap-3 transition-colors border-b border-gray-50 last:border-0"
                 >
@@ -192,10 +192,13 @@ const Header = () => {
               ))}
             </div>
           )}
-          
+
           <Link to="/" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
           <Link to="/products" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
-          
+          <Link to="/about" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
+          <Link to="/contact" className="text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+
+
           {user ? (
             <div className="border-t pt-4 mt-2 flex flex-col gap-4">
               {user.isAdmin && (

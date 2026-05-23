@@ -17,6 +17,8 @@ import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import AdminRoute from './components/AdminRoute';
 import AdminLayout from './components/AdminLayout';
 import AdminDashboard from './pages/AdminDashboard';
@@ -46,37 +48,39 @@ const App = () => {
             <AnimatePresence>
               {isLoading && <SplashScreen />}
             </AnimatePresence>
-            
+
             <div className={`flex flex-col min-h-screen ${isLoading ? 'h-screen overflow-hidden' : ''}`}>
-            <Header />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password/:resettoken" element={<ResetPassword />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/wishlist" element={<Wishlist />} />
-                
-                {/* Admin Routes */}
-                <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
-                  <Route path="dashboard" element={<AdminDashboard />} />
-                  <Route path="products" element={<AdminProducts />} />
-                  <Route path="products/restore" element={<AdminProductRestore />} />
-                  <Route path="products/:id/edit" element={<AdminProductForm />} />
-                  <Route path="orders" element={<AdminOrders />} />
-                  <Route path="users" element={<AdminUsers />} />
-                  <Route path="users/restore" element={<AdminUserRestore />} />
-                </Route>
-              </Routes>
-            </main>
-            {/* Hide footer on admin pages by modifying Footer logic or just keeping it (AdminLayout is flex h-screen so it might push it, wait, AdminLayout is full screen. Actually, let's keep Footer outside since the layout has main flex-grow) */}
-            <Footer />
-          </div>
+              <Header />
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route path="/reset-password/:resettoken" element={<ResetPassword />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/wishlist" element={<Wishlist />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+
+                  {/* Admin Routes */}
+                  <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+                    <Route path="dashboard" element={<AdminDashboard />} />
+                    <Route path="products" element={<AdminProducts />} />
+                    <Route path="products/restore" element={<AdminProductRestore />} />
+                    <Route path="products/:id/edit" element={<AdminProductForm />} />
+                    <Route path="orders" element={<AdminOrders />} />
+                    <Route path="users" element={<AdminUsers />} />
+                    <Route path="users/restore" element={<AdminUserRestore />} />
+                  </Route>
+                </Routes>
+              </main>
+              {/* Hide footer on admin pages by modifying Footer logic or just keeping it (AdminLayout is flex h-screen so it might push it, wait, AdminLayout is full screen. Actually, let's keep Footer outside since the layout has main flex-grow) */}
+              <Footer />
+            </div>
           </Router>
         </WishlistProvider>
       </CartProvider>
