@@ -1,33 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { AuthProvider } from './context/AuthContext';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import SplashScreen from './components/SplashScreen';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import ProductDetail from './pages/ProductDetail';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
-import Profile from './pages/Profile';
-import Cart from './pages/Cart';
-import Wishlist from './pages/Wishlist';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import AdminRoute from './components/AdminRoute';
-import AdminLayout from './components/AdminLayout';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminProducts from './pages/AdminProducts';
-import AdminProductForm from './pages/AdminProductForm';
-import AdminProductRestore from './pages/AdminProductRestore';
-import AdminUsers from './pages/AdminUsers';
-import AdminUserRestore from './pages/AdminUserRestore';
-import AdminOrders from './pages/AdminOrders';
+import Header from './components/user/Header.jsx';
+import Footer from './components/user/Footer.jsx';
+import SplashScreen from './components/user/SplashScreen.jsx';
+import './App.css';
+import Home from './pages/userpages/Home.jsx';
+import Products from './pages/userpages/Products.jsx';
+import ProductDetail from './pages/userpages/ProductDetail.jsx';
+import Login from './pages/userpages/Login.jsx';
+import Signup from './pages/userpages/Signup.jsx';
+import ForgotPassword from './pages/userpages/ForgotPassword.jsx';
+import ResetPassword from './pages/userpages/ResetPassword.jsx';
+import Profile from './pages/userpages/Profile.jsx';
+import Cart from './pages/userpages/Cart.jsx';
+import Checkout from './pages/userpages/Checkout.jsx';
+import OrderSuccess from './pages/userpages/OrderSuccess.jsx';
+import Wishlist from './pages/userpages/Wishlist.jsx';
+import About from './pages/userpages/About.jsx';
+import Contact from './pages/userpages/Contact.jsx';
+import AdminRoute from './components/admin/AdminRoute.jsx';
+import AdminLayout from './components/admin/AdminLayout.jsx';
+import AdminDashboard from './pages/adminpages/AdminDashboard.jsx';
+import AdminProducts from './pages/adminpages/AdminProducts.jsx';
+import AdminProductForm from './pages/adminpages/AdminProductForm.jsx';
+import AdminProductRestore from './pages/adminpages/AdminProductRestore.jsx';
+import AdminUsers from './pages/adminpages/AdminUsers.jsx';
+import AdminUserRestore from './pages/adminpages/AdminUserRestore.jsx';
+import AdminOrders from './pages/adminpages/AdminOrders.jsx';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -49,9 +52,9 @@ const App = () => {
               {isLoading && <SplashScreen />}
             </AnimatePresence>
 
-            <div className={`flex flex-col min-h-screen ${isLoading ? 'h-screen overflow-hidden' : ''}`}>
+            <div className={`app-container ${isLoading ? 'app-loading' : ''}`}>
               <Header />
-              <main className="flex-grow">
+              <main className="app-main">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/products" element={<Products />} />
@@ -62,6 +65,8 @@ const App = () => {
                   <Route path="/reset-password/:resettoken" element={<ResetPassword />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/cart" element={<Cart />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/order-success/:id" element={<OrderSuccess />} />
                   <Route path="/wishlist" element={<Wishlist />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/contact" element={<Contact />} />

@@ -6,7 +6,7 @@ const Product = require('../models/Product');
 // @access  Private
 const addOrderItems = async (req, res) => {
   try {
-    const { orderItems, totalPrice } = req.body;
+    const { orderItems, shippingAddress, paymentMethod, totalPrice } = req.body;
 
     if (orderItems && orderItems.length === 0) {
       return res.status(400).json({ message: 'No order items' });
@@ -14,6 +14,8 @@ const addOrderItems = async (req, res) => {
       const order = new Order({
         orderItems,
         user: req.user._id,
+        shippingAddress,
+        paymentMethod,
         totalPrice,
       });
 
@@ -80,9 +82,32 @@ const updateOrderToDelivered = async (req, res) => {
   }
 };
 
+// @desc    Get order by ID
+// @route   GET /api/orders/:id
+// @access  Private
+const getOrderById = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id).populate('user', 'name email');
+
+    if (order) {
+      // Check if user is admin or the order belongs to the user
+      if (req.user.isAdmin || order.user._id.toString() === req.user._id.toString()) {
+        res.json(order);
+      } else {
+        res.status(401).json({ message: 'Not authorized to view this order' });
+      }
+    } else {
+      res.status(404).json({ message: 'Order not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+};
+
 module.exports = {
   addOrderItems,
   getOrders,
   getMyOrders,
+  getOrderById,
   updateOrderToDelivered,
 };
