@@ -6,6 +6,7 @@ import TopCategories from '../../components/user/TopCategories';
 import PromotionalBanner from '../../components/user/PromotionalBanner';
 import ProductCard from '../../components/user/ProductCard';
 import BlogSection from '../../components/user/BlogSection';
+import Testimonials from '../../components/user/Testimonials';
 import "../userCss/Home.css";
 
 const Home = () => {
@@ -51,6 +52,7 @@ const Home = () => {
 
       <PromotionalBanner />
       <TopCategories />
+      <Testimonials />
       <BlogSection />
     </div>
   );

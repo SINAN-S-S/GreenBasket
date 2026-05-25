@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
-import { FiTrash2, FiTrash, FiShield, FiShieldOff, FiUserCheck, FiUserX } from 'react-icons/fi';
+import { FiTrash2, FiTrash, FiShield, FiUserCheck, FiUserX } from 'react-icons/fi';
 import { AuthContext } from '../../context/AuthContext';
 import '../adminCss/AdminUsers.css';
 

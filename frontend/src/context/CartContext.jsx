@@ -22,7 +22,9 @@ export const CartProvider = ({ children }) => {
             // Map the DB cart format ({ product: object, qty: number }) to local format ({ ...product, qty: number })
             const mappedCart = data.cart.map(item => ({
               ...item.product,
-              qty: item.qty
+              qty: item.qty,
+              unit: item.unit || '1kg',
+              price: item.unit === '500g' ? Math.round(item.product.price * 0.5) : (item.unit === '250g' ? Math.round(item.product.price * 0.25) : item.product.price)
             }));
             setCart(mappedCart);
           }
@@ -42,7 +44,7 @@ export const CartProvider = ({ children }) => {
       const syncToDB = async () => {
         try {
           const config = { headers: { Authorization: `Bearer ${user.token}` } };
-          const dbCart = cart.map(item => ({ product: item._id, qty: item.qty }));
+          const dbCart = cart.map(item => ({ product: item._id, qty: item.qty, unit: item.unit }));
           await axios.put('http://localhost:5000/api/users/cart', { cart: dbCart }, config);
         } catch (error) {
           console.error("Error syncing cart to DB", error);
@@ -54,13 +56,13 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product) => {
     setCart((prevCart) => {
-      const existing = prevCart.find((item) => item._id === product._id);
+      const existing = prevCart.find((item) => item._id === product._id && item.unit === product.unit);
       if (existing) {
         if (existing.qty >= product.countInStock) {
           return prevCart;
         }
         return prevCart.map((item) =>
-          item._id === product._id ? { ...item, qty: item.qty + 1 } : item
+          item._id === product._id && item.unit === product.unit ? { ...item, qty: item.qty + 1 } : item
         );
       }
       if (product.countInStock === 0) return prevCart;
@@ -68,13 +70,13 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeFromCart = (id) => {
-    setCart((prevCart) => prevCart.filter((item) => item._id !== id));
+  const removeFromCart = (id, unit) => {
+    setCart((prevCart) => prevCart.filter((item) => !(item._id === id && item.unit === unit)));
   };
 
-  const updateQty = (id, qty) => {
+  const updateQty = (id, unit, qty) => {
     setCart((prevCart) =>
-      prevCart.map((item) => (item._id === id ? { ...item, qty: Math.min(qty, item.countInStock || qty) } : item))
+      prevCart.map((item) => (item._id === id && item.unit === unit ? { ...item, qty: Math.min(qty, item.countInStock || qty) } : item))
     );
   };
 

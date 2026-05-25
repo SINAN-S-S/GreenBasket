@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiShoppingBag, FiHeart, FiPlus, FiMinus } from 'react-icons/fi';
@@ -11,16 +11,34 @@ const ProductCard = ({ product }) => {
   const { cart, addToCart, updateQty, removeFromCart } = useContext(CartContext);
   const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
 
-  const cartItem = cart.find(item => item._id === product._id);
+  const isKgItem = product.unit === '1kg' || product.type === 'Vegetables' || product.type === 'Fresh Fruits';
+  // Note: For simplicity, if it's a Fruit Juice or clearly not kg, we hide the selector.
+  const showWeightSelector = product.type !== 'Fruit Juices' && (product.unit === '1kg' || product.unit === '500g' || product.unit === '250g');
+
+  const weights = [
+    { label: '1kg', multiplier: 1 },
+    { label: '500g', multiplier: 0.5 },
+    { label: '250g', multiplier: 0.25 }
+  ];
+  
+  // Default selected weight logic
+  const [selectedWeight, setSelectedWeight] = useState(showWeightSelector ? weights[0] : { label: product.unit, multiplier: 1 });
+
+  const currentSelection = showWeightSelector ? selectedWeight : { label: product.unit, multiplier: 1 };
+
+  const displayPrice = Math.round(product.price * currentSelection.multiplier) || 0;
+  const displayOldPrice = product.discount > 0 ? Math.round(displayPrice * (1 + product.discount / 100)) : 0;
+
+  const cartItem = cart.find(item => item._id === product._id && item.unit === currentSelection.label);
 
   const handleAddToCart = () => {
-    addToCart(product);
+    addToCart({ ...product, price: displayPrice, unit: currentSelection.label });
     Swal.fire({
       toast: true,
       position: 'bottom-end',
       icon: 'success',
       title: 'Added to Cart',
-      text: `${product.name} added to your cart!`,
+      text: `${product.name} (${currentSelection.label}) added to your cart!`,
       showConfirmButton: false,
       timer: 1500
     });
@@ -79,28 +97,55 @@ const ProductCard = ({ product }) => {
           {product.description}
         </p>
 
+        {showWeightSelector ? (
+          <div className="product-weight-selector" style={{ display: 'flex', gap: '5px', marginBottom: '10px' }}>
+            {weights.map((w) => (
+              <button
+                key={w.label}
+                onClick={() => setSelectedWeight(w)}
+                style={{
+                  padding: '4px 8px',
+                  borderRadius: '6px',
+                  border: selectedWeight.label === w.label ? '1px solid var(--color-brand-green)' : '1px solid #e5e7eb',
+                  backgroundColor: selectedWeight.label === w.label ? '#f0fdf4' : '#ffffff',
+                  color: selectedWeight.label === w.label ? 'var(--color-brand-green)' : '#374151',
+                  fontSize: '0.75rem',
+                  fontWeight: selectedWeight.label === w.label ? '600' : '500',
+                  cursor: 'pointer',
+                  flex: 1
+                }}
+              >
+                {w.label}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div style={{ marginBottom: '10px', fontSize: '0.875rem', color: '#6b7280', fontWeight: '500' }}>
+            Unit: {product.unit}
+          </div>
+        )}
+
         {/* Price & Add to Cart */}
         <div className="product-footer">
           <div>
-            <span className="product-price-current">₹{product.price}</span>
-            <span className="product-price-unit">/ {product.unit || '1kg'}</span>
+            <span className="product-price-current">₹{displayPrice}</span>
             {product.discount > 0 && (
               <span className="product-price-old">
-                ₹{Math.round(product.price * (1 + product.discount / 100))}
+                ₹{displayOldPrice}
               </span>
             )}
           </div>
           {cartItem ? (
             <div className="product-cart-controls">
               <button
-                onClick={() => cartItem.qty === 1 ? removeFromCart(product._id) : updateQty(product._id, cartItem.qty - 1)}
+                onClick={() => cartItem.qty === 1 ? removeFromCart(product._id, currentSelection.label) : updateQty(product._id, currentSelection.label, cartItem.qty - 1)}
                 className="product-cart-btn-qty"
               >
                 <FiMinus size={14} />
               </button>
               <span className="product-cart-qty-text">{cartItem.qty}</span>
               <button
-                onClick={() => updateQty(product._id, cartItem.qty + 1)}
+                onClick={() => updateQty(product._id, currentSelection.label, cartItem.qty + 1)}
                 disabled={cartItem.qty >= product.countInStock}
                 className="product-cart-btn-qty"
               >

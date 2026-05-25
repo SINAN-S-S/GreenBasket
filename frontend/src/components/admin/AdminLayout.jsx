@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { FiHome, FiBox, FiUsers, FiSettings, FiLogOut, FiArrowLeft, FiShoppingBag } from 'react-icons/fi';
+import { FiHome, FiBox, FiUsers, FiLogOut, FiArrowLeft, FiShoppingBag } from 'react-icons/fi';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import './AdminLayout.css';

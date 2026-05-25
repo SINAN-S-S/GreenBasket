@@ -194,6 +194,10 @@ const Checkout = () => {
                   <span className="checkout-summary-label">Shipping</span>
                   <span className="checkout-summary-val-green">Free</span>
                 </div>
+                <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '-0.5rem', marginBottom: '1rem', textAlign: 'right', lineHeight: '1.4' }}>
+                  Free Delivery on orders over ₹500<br/>
+                  (Otherwise ₹2 added per 1 km)
+                </div>
               </div>
               
               <div className="checkout-total-container">

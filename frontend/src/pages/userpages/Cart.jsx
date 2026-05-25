@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiTrash2, FiMinus, FiPlus, FiArrowRight } from 'react-icons/fi';
 import { CartContext } from '../../context/CartContext';
 import { AuthContext } from '../../context/AuthContext';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import "../userCss/Cart.css";
 
@@ -11,7 +10,6 @@ const Cart = () => {
   const { cart, removeFromCart, updateQty, cartTotal, clearCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [checkingOut, setCheckingOut] = useState(false);
 
   const handleCheckout = () => {
     if (!user) {
@@ -42,7 +40,7 @@ const Cart = () => {
             <div className="cart-items-card">
               <ul className="cart-items-list">
                 {cart.map((item) => (
-                  <li key={item._id} className="cart-item">
+                  <li key={`${item._id}-${item.unit}`} className="cart-item">
                     <img src={item.image} alt={item.name} className="cart-item-img" />
                     
                     <div className="cart-item-info">
@@ -59,14 +57,14 @@ const Cart = () => {
                     <div className="cart-item-actions">
                       <div className="cart-qty-control">
                         <button 
-                          onClick={() => updateQty(item._id, Math.max(1, item.qty - 1))}
+                          onClick={() => updateQty(item._id, item.unit, Math.max(1, item.qty - 1))}
                           className="cart-qty-btn"
                         >
                           <FiMinus size={16} />
                         </button>
                         <span className="cart-qty-value">{item.qty}</span>
                         <button 
-                          onClick={() => updateQty(item._id, item.qty + 1)}
+                          onClick={() => updateQty(item._id, item.unit, item.qty + 1)}
                           disabled={item.qty >= item.countInStock}
                           className={`cart-qty-btn cart-qty-btn-small ${
                             item.qty >= item.countInStock ? 'cart-qty-btn-disabled' : ''
@@ -77,7 +75,7 @@ const Cart = () => {
                       </div>
                       
                       <button 
-                        onClick={() => removeFromCart(item._id)}
+                        onClick={() => removeFromCart(item._id, item.unit)}
                         className="cart-remove-btn"
                         title="Remove Item"
                       >
@@ -111,6 +109,10 @@ const Cart = () => {
                 <div className="cart-summary-row">
                   <span>Shipping</span>
                   <span className="cart-summary-val-green">Free</span>
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '-0.5rem', marginBottom: '1rem', textAlign: 'right', lineHeight: '1.4' }}>
+                  Free Delivery on orders over ₹500<br/>
+                  (Otherwise ₹2 added per 1 km)
                 </div>
                 <div className="cart-summary-row">
                   <span>Tax</span>

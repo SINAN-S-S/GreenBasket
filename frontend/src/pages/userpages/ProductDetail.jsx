@@ -12,6 +12,13 @@ const ProductDetail = () => {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const weights = [
+    { label: '1kg', multiplier: 1 },
+    { label: '500g', multiplier: 0.5 },
+    { label: '250g', multiplier: 0.25 }
+  ];
+  const [selectedWeight, setSelectedWeight] = useState(weights[0]);
+
   const { cart, addToCart, updateQty, removeFromCart } = useContext(CartContext);
   const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
 
@@ -29,16 +36,19 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
-  const cartItem = cart.find(item => item._id === product._id);
+  const displayPrice = Math.round(product.price * selectedWeight.multiplier) || 0;
+  const displayOldPrice = product.discount > 0 ? Math.round(displayPrice * (1 + product.discount/100)) : 0;
+
+  const cartItem = cart.find(item => item._id === product._id && item.unit === selectedWeight.label);
 
   const handleAddToCart = () => {
-    addToCart(product);
+    addToCart({ ...product, price: displayPrice, unit: selectedWeight.label });
     Swal.fire({
       toast: true,
       position: 'bottom-end',
       icon: 'success',
       title: 'Added to Cart',
-      text: `${product.name} added to your cart!`,
+      text: `${product.name} (${selectedWeight.label}) added to your cart!`,
       showConfirmButton: false,
       timer: 1500
     });
@@ -98,13 +108,32 @@ const ProductDetail = () => {
             <h1 className="product-detail-title">{product.name}</h1>
             
             <div className="product-detail-pricing">
-              <span className="product-detail-price-current">₹{product.price}</span>
+              <span className="product-detail-price-current">₹{displayPrice}</span>
               {product.discount > 0 && (
                 <span className="product-detail-price-old">
-                  ₹{Math.round(product.price * (1 + product.discount/100))}
+                  ₹{displayOldPrice}
                 </span>
               )}
-              <span className="product-detail-price-unit">/ {product.unit || '1kg'}</span>
+            </div>
+
+            <div className="product-weight-selector" style={{ display: 'flex', gap: '10px', margin: '15px 0' }}>
+              {weights.map((w) => (
+                <button
+                  key={w.label}
+                  onClick={() => setSelectedWeight(w)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    border: selectedWeight.label === w.label ? '2px solid var(--color-brand-green)' : '1px solid #e5e7eb',
+                    backgroundColor: selectedWeight.label === w.label ? '#f0fdf4' : '#ffffff',
+                    color: selectedWeight.label === w.label ? 'var(--color-brand-green)' : '#374151',
+                    fontWeight: selectedWeight.label === w.label ? '600' : '500',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {w.label}
+                </button>
+              ))}
             </div>
 
             <p className="product-detail-desc">
@@ -136,14 +165,14 @@ const ProductDetail = () => {
               {cartItem ? (
                 <div className="product-detail-qty-control">
                   <button 
-                    onClick={() => cartItem.qty === 1 ? removeFromCart(product._id) : updateQty(product._id, cartItem.qty - 1)}
+                    onClick={() => cartItem.qty === 1 ? removeFromCart(product._id, selectedWeight.label) : updateQty(product._id, selectedWeight.label, cartItem.qty - 1)}
                     className="qty-btn"
                   >
                     <FiMinus />
                   </button>
                   <span className="qty-value">{cartItem.qty}</span>
                   <button 
-                    onClick={() => updateQty(product._id, cartItem.qty + 1)}
+                    onClick={() => updateQty(product._id, selectedWeight.label, cartItem.qty + 1)}
                     disabled={cartItem.qty >= product.countInStock}
                     className="qty-btn"
                   >

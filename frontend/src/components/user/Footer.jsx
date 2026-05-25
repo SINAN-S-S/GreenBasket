@@ -66,11 +66,11 @@ const Footer = () => {
             <ul className="footer-contact-list">
               <li className="footer-contact-item">
                 <FiMapPin className="footer-contact-icon footer-contact-icon-mt" size={18} />
-                <span>123 Organic Farm Road, Green City, GC 10023</span>
+                <span>123 Green Market Street, Agriculture Park, Kerala 400001</span>
               </li>
               <li className="footer-contact-item footer-contact-item-center">
                 <FiPhone className="footer-contact-icon" size={18} />
-                <span>+91 98765 43210</span>
+                <span>+91 9072003407</span>
               </li>
               <li className="footer-contact-item footer-contact-item-center">
                 <FiMail className="footer-contact-icon" size={18} />

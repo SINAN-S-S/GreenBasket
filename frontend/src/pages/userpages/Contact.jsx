@@ -60,7 +60,7 @@ const Contact = () => {
                 <div className="contact-info-icon-wrapper"><FiMapPin size={20} /></div>
                 <div>
                   <h4 className="contact-info-item-title">Our Location</h4>
-                  <p className="contact-info-item-text">123 Green Market Street,<br />Agriculture Park, Mumbai 400001</p>
+                  <p className="contact-info-item-text">123 Green Market Street,<br />Agriculture Park, Kerala 400001</p>
                 </div>
               </motion.div>
               
@@ -73,7 +73,7 @@ const Contact = () => {
                 <div className="contact-info-icon-wrapper"><FiPhone size={20} /></div>
                 <div>
                   <h4 className="contact-info-item-title">Phone Number</h4>
-                  <p className="contact-info-item-text">+91 98765 43210</p>
+                  <p className="contact-info-item-text">+91 9072003407</p>
                 </div>
               </motion.div>
 

@@ -68,13 +68,11 @@ export const WishlistProvider = ({ children }) => {
   }, [wishlist, user, isInitialized]);
 
   const toggleWishlist = (product) => {
-    let isAdded = false;
     setWishlist((prevWishlist) => {
       const existing = prevWishlist.find((item) => (item._id || item) === product._id);
       if (existing) {
         return prevWishlist.filter((item) => (item._id || item) !== product._id);
       } else {
-        isAdded = true;
         return [...prevWishlist, product];
       }
     });

@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema(
           required: true,
           default: 1,
         },
+        unit: {
+          type: String,
+          default: '1kg'
+        }
       }
     ],
     wishlist: [

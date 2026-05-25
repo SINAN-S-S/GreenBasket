@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { FiCheckCircle, FiPackage, FiTruck, FiMapPin, FiCreditCard } from 'react-icons/fi';
+import { FiCheckCircle, FiPackage, FiMapPin, FiCreditCard } from 'react-icons/fi';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import "../userCss/OrderSuccess.css";

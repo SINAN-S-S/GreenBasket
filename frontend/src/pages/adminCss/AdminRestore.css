@@ -178,10 +178,8 @@
 .admin-restore-img {
   width: 3rem; /* w-12 */
   height: 3rem; /* h-12 */
-  object-fit: cover;
-  border-radius: 0.5rem; /* rounded-lg */
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
-  border: 1px solid #f3f4f6; /* border-gray-100 */
+  object-fit: contain;
+  mix-blend-mode: multiply;
   opacity: 0.5;
   filter: grayscale(100%);
 }

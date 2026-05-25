@@ -2,83 +2,123 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
+import { FaLeaf, FaTruck, FaStar, FaRecycle, FaSmile } from 'react-icons/fa';
+import { MdOutlineVerifiedUser, MdOutlinePayment } from "react-icons/md";
 import './Hero.css';
 
 const Hero = () => {
   return (
     <section className="hero-section">
-      <div className="hero-grid">
-        {/* Main Banner */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="hero-main"
-        >
-          {/* Full Background Image */}
-          <motion.img 
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
-            src="/images/hero_main.png" 
-            alt="Fresh Groceries Background" 
-            className="hero-main-bg"
-          />
-          
-          {/* Gradient Overlay for text readability */}
-          <div className="hero-main-overlay"></div>
+      {/* Background Floating Leaves */}
+      <div className="hero-leaves">
+        <FaLeaf className="leaf leaf-1" />
+        <FaLeaf className="leaf leaf-2" />
+        <FaLeaf className="leaf leaf-3" />
+        <FaLeaf className="leaf leaf-4" />
+        <FaLeaf className="leaf leaf-5" />
+        <FaLeaf className="leaf leaf-6" />
+      </div>
 
-          <div className="hero-main-content">
-            <span className="hero-badge">
-              100% Organic Products
-            </span>
-            <h1 className="hero-title">
-              Fresh & Healthy <br/> Organic Food
-            </h1>
-            <p className="hero-desc">
-              Get the freshest organic grocery delivery to your doorstep. Healthy living starts here!
-            </p>
-            <Link to="/products" className="hero-btn">
-              Shop Now <FiArrowRight />
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* Side Banners */}
-        <div className="hero-side-container">
+      <div className="hero-container">
+        
+        {/* Main Banner Content */}
+        <div className="hero-content">
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="hero-side-banner hero-side-banner-orange"
+            transition={{ duration: 0.6 }}
+            className="hero-text-area"
           >
-            <div className="hero-side-content">
-              <h3 className="hero-side-title">Summer Sale <br/> 30% Off</h3>
-              <Link to="/products" className="hero-side-link hero-side-link-orange">Shop Now</Link>
+            <div className="hero-badge">
+              <FaLeaf className="hero-badge-icon" /> Good for You. Good for Nature.
             </div>
-            <img 
-              src="https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&w=300&q=80" 
-              alt="Oranges" 
-              className="hero-side-img"
-            />
+            
+            <h1 className="hero-title">
+              Fresh From <span className="text-green">Nature</span>,<br /> Delivered to You
+            </h1>
+            
+            <p className="hero-desc">
+              Discover 100% organic groceries, farm-fresh produce, and wholesome essentials for a healthier, happier you.
+            </p>
+            
+            <div className="hero-actions">
+              <Link to="/products" className="hero-btn hero-btn-primary">
+                Shop Now <FiArrowRight />
+              </Link>
+              <Link to="/products" className="hero-btn hero-btn-secondary">
+                Explore Products <FiArrowRight />
+              </Link>
+            </div>
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="hero-side-banner hero-side-banner-blue"
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="hero-image-area"
           >
-            <div className="hero-side-content">
-              <h3 className="hero-side-title">Fresh Veggies <br/> Big Discount</h3>
-              <Link to="/products" className="hero-side-link hero-side-link-blue">Shop Now</Link>
-            </div>
             <img 
-              src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=300&q=80" 
-              alt="Carrots" 
-              className="hero-side-img"
+              src="/images/hero_groceries_composite.png" 
+              alt="Fresh Organic Groceries" 
+              className="hero-main-img" 
             />
+            
+            {/* Floating Card 1: 100% Natural */}
+            <motion.div 
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className="floating-card floating-card-1"
+            >
+              <div className="floating-card-icon bg-green-light">
+                <MdOutlineVerifiedUser className="text-green-dark" size={20} />
+              </div>
+              <div className="floating-card-text">
+                <h4>100% Natural <FaLeaf className="text-green-dark" size={12}/></h4>
+                <p>No chemicals. No compromise.</p>
+              </div>
+            </motion.div>
+
+            {/* Floating Card 2: Same Day Delivery */}
+            <motion.div 
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
+              className="floating-card floating-card-2"
+            >
+              <div className="floating-card-icon bg-orange-light">
+                <FaTruck className="text-orange" size={20} />
+              </div>
+              <div className="floating-card-text">
+                <h4>Same Day Delivery <FaTruck className="text-orange" size={12}/></h4>
+                <p>Freshness, delivered fast.</p>
+              </div>
+            </motion.div>
+
+            {/* Floating Card 3: Reviews */}
+            <motion.div 
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 0.5 }}
+              className="floating-card floating-card-3"
+            >
+              <div className="floating-card-icon bg-yellow-light">
+                <FaStar className="text-yellow" size={20} />
+              </div>
+              <div className="floating-card-text">
+                <h4>4.9/5</h4>
+                <p>12K Reviews</p>
+                <div className="floating-avatars">
+                  <img src="https://i.pravatar.cc/100?img=1" alt="User" />
+                  <img src="https://i.pravatar.cc/100?img=2" alt="User" />
+                  <img src="https://i.pravatar.cc/100?img=3" alt="User" />
+                  <img src="https://i.pravatar.cc/100?img=4" alt="User" />
+                  <div className="avatar-more">+</div>
+                </div>
+              </div>
+            </motion.div>
+
           </motion.div>
         </div>
+
+
       </div>
     </section>
   );
