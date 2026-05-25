@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Order = require('../models/Order');
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
@@ -103,7 +104,17 @@ const syncUserWishlist = async (req, res) => {
 // @access  Private/Admin
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find({ isDeleted: { $ne: true } }).select('-password');
+    const users = await User.find({ isDeleted: { $ne: true } }).select('-password').lean();
+    
+    for (let user of users) {
+      const latestOrder = await Order.findOne({ user: user._id }).sort({ createdAt: -1 });
+      if (latestOrder && latestOrder.shippingAddress) {
+        user.address = `${latestOrder.shippingAddress.address}, ${latestOrder.shippingAddress.city}, ${latestOrder.shippingAddress.postalCode}`;
+      } else {
+        user.address = 'No orders yet';
+      }
+    }
+    
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: 'Server Error', error: error.message });

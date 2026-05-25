@@ -118,6 +118,7 @@ const AdminUsers = () => {
                 <tr>
                   <th>NAME</th>
                   <th>EMAIL</th>
+                  <th>ADDRESS</th>
                   <th>ROLE</th>
                   <th>STATUS</th>
                   <th className="text-right">ACTIONS</th>
@@ -131,6 +132,7 @@ const AdminUsers = () => {
                       {u.username && <div className="admin-users-username">@{u.username}</div>}
                     </td>
                     <td className="admin-users-email">{u.email}</td>
+                    <td className="admin-users-address text-sm text-gray-600 max-w-xs truncate" title={u.address}>{u.address}</td>
                     <td>
                       {u.isAdmin ? (
                         <span className="admin-users-role-admin">

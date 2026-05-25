@@ -104,10 +104,53 @@ const getOrderById = async (req, res) => {
   }
 };
 
+// @desc    Cancel an order
+// @route   PUT /api/orders/:id/cancel
+// @access  Private
+const cancelOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (order) {
+      if (order.user.toString() !== req.user._id.toString() && !req.user.isAdmin) {
+        return res.status(401).json({ message: 'Not authorized to cancel this order' });
+      }
+
+      if (order.isDelivered) {
+        return res.status(400).json({ message: 'Cannot cancel a delivered order' });
+      }
+
+      if (order.isCancelled) {
+        return res.status(400).json({ message: 'Order is already cancelled' });
+      }
+
+      order.isCancelled = true;
+      order.cancelledAt = Date.now();
+
+      // Restore product stock
+      for (const item of order.orderItems) {
+        const product = await Product.findById(item.product);
+        if (product) {
+          product.countInStock += item.qty;
+          await product.save();
+        }
+      }
+
+      const updatedOrder = await order.save();
+      res.json(updatedOrder);
+    } else {
+      res.status(404).json({ message: 'Order not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+};
+
 module.exports = {
   addOrderItems,
   getOrders,
   getMyOrders,
   getOrderById,
   updateOrderToDelivered,
+  cancelOrder,
 };

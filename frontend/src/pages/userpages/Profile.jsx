@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/AuthContext';
 import { FiUser, FiMail, FiLock, FiSave, FiPackage, FiTruck, FiCheckCircle } from 'react-icons/fi';
 import "../userCss/Profile.css";
@@ -37,6 +38,44 @@ const Profile = () => {
       fetchMyOrders();
     }
   }, [user]);
+
+  const cancelOrderHandler = async (id) => {
+    const result = await Swal.fire({
+      title: 'Cancel Order?',
+      text: "Are you sure you want to cancel this order? This action cannot be undone.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#9ca3af',
+      confirmButtonText: 'Yes, cancel it!'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const config = { headers: { Authorization: `Bearer ${user.token}` } };
+        await axios.put(`http://localhost:5000/api/orders/${id}/cancel`, {}, config);
+        
+        Swal.fire({
+          title: 'Cancelled!',
+          text: 'Your order has been successfully cancelled.',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        // Refresh orders
+        const { data } = await axios.get('http://localhost:5000/api/orders/myorders', config);
+        setOrders(data);
+      } catch (error) {
+        console.error("Failed to cancel order", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.response?.data?.message || 'Failed to cancel order'
+        });
+      }
+    }
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -200,10 +239,21 @@ const Profile = () => {
                   </div>
                   <div className="text-right">
                     <p className="profile-order-total">₹{order.totalPrice}</p>
-                    {order.isDelivered ? (
-                      <span className="profile-order-status-delivered">Delivered</span>
+                    {order.isCancelled ? (
+                      <span className="profile-order-status-cancelled text-red-500 font-bold ml-2">Cancelled</span>
+                    ) : order.isDelivered ? (
+                      <span className="profile-order-status-delivered text-green-500 font-bold ml-2">Delivered</span>
                     ) : (
-                      <span className="profile-order-status-pending">Pending</span>
+                      <span className="profile-order-status-pending text-yellow-500 font-bold ml-2">Pending</span>
+                    )}
+                    
+                    {!order.isCancelled && !order.isDelivered && (
+                      <button 
+                        onClick={() => cancelOrderHandler(order._id)}
+                        className="profile-cancel-btn"
+                      >
+                        Cancel Order
+                      </button>
                     )}
                   </div>
                 </div>
@@ -223,48 +273,50 @@ const Profile = () => {
                 </div>
 
                 {/* Order Tracking Bar */}
-                <div className="profile-order-tracking">
-                  <h4 className="profile-order-tracking-title">Track Order</h4>
-                  <div className="profile-tracking-bar">
-                    {/* Background Line */}
-                    <div className="profile-tracking-bg-line"></div>
-                    {/* Active Line */}
-                    <div 
-                      className={`profile-tracking-active-line`} 
-                      style={{ width: order.isDelivered ? 'calc(100% - 2rem)' : 'calc(50% - 1rem)' }}
-                    ></div>
-                    
-                    {/* Step 1: Placed */}
-                    <div className="profile-tracking-step">
-                      <div className="profile-tracking-icon profile-tracking-icon-active">
-                        <FiPackage />
+                {!order.isCancelled && (
+                  <div className="profile-order-tracking">
+                    <h4 className="profile-order-tracking-title">Track Order</h4>
+                    <div className="profile-tracking-bar">
+                      {/* Background Line */}
+                      <div className="profile-tracking-bg-line"></div>
+                      {/* Active Line */}
+                      <div 
+                        className={`profile-tracking-active-line`} 
+                        style={{ width: order.isDelivered ? 'calc(100% - 2rem)' : 'calc(50% - 1rem)' }}
+                      ></div>
+                      
+                      {/* Step 1: Placed */}
+                      <div className="profile-tracking-step">
+                        <div className="profile-tracking-icon profile-tracking-icon-active">
+                          <FiPackage />
+                        </div>
+                        <span className="profile-tracking-label">Placed</span>
                       </div>
-                      <span className="profile-tracking-label">Placed</span>
-                    </div>
 
-                    {/* Step 2: Processing */}
-                    <div className="profile-tracking-step">
-                      <div className={`profile-tracking-icon ${
-                        order.isDelivered ? 'profile-tracking-icon-active' : 'profile-tracking-icon-processing'
-                      }`}>
-                        <FiTruck />
+                      {/* Step 2: Processing */}
+                      <div className="profile-tracking-step">
+                        <div className={`profile-tracking-icon ${
+                          order.isDelivered ? 'profile-tracking-icon-active' : 'profile-tracking-icon-processing'
+                        }`}>
+                          <FiTruck />
+                        </div>
+                        <span className={`profile-tracking-label ${order.isDelivered ? '' : 'profile-tracking-label-active'}`}>
+                          {order.isDelivered ? 'Shipped' : 'Processing'}
+                        </span>
                       </div>
-                      <span className={`profile-tracking-label ${order.isDelivered ? '' : 'profile-tracking-label-active'}`}>
-                        {order.isDelivered ? 'Shipped' : 'Processing'}
-                      </span>
-                    </div>
 
-                    {/* Step 3: Delivered */}
-                    <div className="profile-tracking-step">
-                      <div className={`profile-tracking-icon ${
-                        order.isDelivered ? 'profile-tracking-icon-active' : 'profile-tracking-icon-inactive'
-                      }`}>
-                        <FiCheckCircle />
+                      {/* Step 3: Delivered */}
+                      <div className="profile-tracking-step">
+                        <div className={`profile-tracking-icon ${
+                          order.isDelivered ? 'profile-tracking-icon-active' : 'profile-tracking-icon-inactive'
+                        }`}>
+                          <FiCheckCircle />
+                        </div>
+                        <span className={`profile-tracking-label ${order.isDelivered ? '' : 'profile-tracking-label-inactive'}`}>Delivered</span>
                       </div>
-                      <span className={`profile-tracking-label ${order.isDelivered ? '' : 'profile-tracking-label-inactive'}`}>Delivered</span>
                     </div>
                   </div>
-                </div>
+                )}
 
               </div>
             ))}
