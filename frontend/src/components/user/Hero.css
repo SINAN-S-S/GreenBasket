@@ -187,21 +187,28 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-right: -5%; /* Push slightly off-center to bleed */
 }
 
 .hero-main-img {
-  width: 130%;
+  width: 100%;
   max-width: 800px;
   height: auto;
   object-fit: contain;
   mix-blend-mode: multiply; /* Crucial for seamless blending with #f4f6ec background */
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 1024px) {
+  .hero-image-area {
+    margin-right: calc(50% - 50vw); /* Bleed perfectly to the right edge of the screen */
+    margin-bottom: -3rem; /* Compensate for the padding-bottom of .hero-section to bleed to bottom */
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  
   .hero-main-img {
-    width: 100%;
-    margin-right: 0;
+    width: 130%;
+    max-width: 900px;
+    object-position: bottom right;
   }
 }
 
@@ -231,7 +238,7 @@
 }
 
 .floating-card-3 {
-  right: -5%;
+  right: 5%; /* Keep inside viewport */
   top: 40%;
   flex-direction: row;
 }
