@@ -72,10 +72,10 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="header-nav">
-          <Link to="/" className="header-nav-link">Home</Link>
-          <Link to="/products" className="header-nav-link">Products</Link>
-          <Link to="/about" className="header-nav-link">About</Link>
-          <Link to="/contact" className="header-nav-link">Contact</Link>
+          <Link to="/" className={`header-nav-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
+          <Link to="/products" className={`header-nav-link ${location.pathname.startsWith('/products') ? 'active' : ''}`}>Products</Link>
+          <Link to="/about" className={`header-nav-link ${location.pathname === '/about' ? 'active' : ''}`}>About</Link>
+          <Link to="/contact" className={`header-nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>Contact</Link>
         </nav>
 
         <div className="header-search-wrapper">
@@ -193,10 +193,10 @@ const Header = () => {
             </div>
           )}
 
-          <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-          <Link to="/products" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
-          <Link to="/about" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
-          <Link to="/contact" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+          <Link to="/" className={`mobile-nav-link ${location.pathname === '/' ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+          <Link to="/products" className={`mobile-nav-link ${location.pathname.startsWith('/products') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
+          <Link to="/about" className={`mobile-nav-link ${location.pathname === '/about' ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>About</Link>
+          <Link to="/contact" className={`mobile-nav-link ${location.pathname === '/contact' ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
 
 
           {user ? (

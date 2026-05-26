@@ -29,6 +29,7 @@ const AdminProducts = () => {
 
   useEffect(() => {
     fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
 
   const deleteHandler = async (id) => {

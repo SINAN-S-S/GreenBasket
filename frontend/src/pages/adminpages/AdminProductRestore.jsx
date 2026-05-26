@@ -25,6 +25,7 @@ const AdminProductRestore = () => {
 
   useEffect(() => {
     fetchDeletedProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const restoreHandler = async (id) => {

@@ -118,7 +118,7 @@ const Checkout = () => {
                 Swal.fire('Error', 'Payment verification failed', 'error');
                 setCheckingOut(false);
               }
-            } catch (error) {
+            } catch {
               Swal.fire('Error', 'Payment verification failed', 'error');
               setCheckingOut(false);
             }

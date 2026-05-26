@@ -43,8 +43,12 @@
   color: var(--text-gray-700);
   transition: color 0.2s;
 }
-.header-nav-link:hover {
+.header-nav-link:hover,
+.header-nav-link.active {
   color: var(--color-brand-green);
+}
+.header-nav-link.active {
+  font-weight: 700;
 }
 
 .header-search-wrapper {
@@ -264,6 +268,14 @@
 .mobile-nav-link {
   color: var(--text-gray-700);
   font-weight: 500;
+  transition: color 0.2s;
+}
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+  color: var(--color-brand-green);
+}
+.mobile-nav-link.active {
+  font-weight: 700;
 }
 
 .mobile-user-section {

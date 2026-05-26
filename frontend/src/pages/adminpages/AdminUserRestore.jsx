@@ -25,6 +25,7 @@ const AdminUserRestore = () => {
 
   useEffect(() => {
     fetchDeletedUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const restoreHandler = async (id) => {

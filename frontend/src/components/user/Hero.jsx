@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
-import { FaLeaf, FaTruck, FaStar, FaRecycle, FaSmile } from 'react-icons/fa';
-import { MdOutlineVerifiedUser, MdOutlinePayment } from "react-icons/md";
+import { FaLeaf, FaTruck, FaStar } from 'react-icons/fa';
+import { MdOutlineVerifiedUser } from "react-icons/md";
 import './Hero.css';
 
 const Hero = () => {

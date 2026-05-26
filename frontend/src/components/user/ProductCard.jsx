@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
   const { cart, addToCart, updateQty, removeFromCart } = useContext(CartContext);
   const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
 
-  const isKgItem = product.unit === '1kg' || product.type === 'Vegetables' || product.type === 'Fresh Fruits';
+
   // Note: For simplicity, if it's a Fruit Juice or clearly not kg, we hide the selector.
   const showWeightSelector = product.type !== 'Fruit Juices' && (product.unit === '1kg' || product.unit === '500g' || product.unit === '250g');
 
