@@ -20,10 +20,10 @@ const Hero = () => {
       </div>
 
       <div className="hero-container">
-        
+
         {/* Main Banner Content */}
         <div className="hero-content">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -32,15 +32,15 @@ const Hero = () => {
             <div className="hero-badge">
               <FaLeaf className="hero-badge-icon" /> Good for You. Good for Nature.
             </div>
-            
+
             <h1 className="hero-title">
               Fresh From <span className="text-green">Nature</span>,<br /> Delivered to You
             </h1>
-            
+
             <p className="hero-desc">
               Discover 100% organic groceries, farm-fresh produce, and wholesome essentials for a healthier, happier you.
             </p>
-            
+
             <div className="hero-actions">
               <Link to="/products" className="hero-btn hero-btn-primary">
                 Shop Now <FiArrowRight />
@@ -51,20 +51,20 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="hero-image-area"
           >
-            <img 
-              src="/images/hero_groceries_composite.png" 
-              alt="Fresh Organic Groceries" 
-              className="hero-main-img" 
+            <img
+              src="/images/hero_groceries_composite.png"
+              alt="Fresh Organic Groceries"
+              className="hero-main-img"
             />
-            
+
             {/* Floating Card 1: 100% Natural */}
-            <motion.div 
+            <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
               className="floating-card floating-card-1"
@@ -73,13 +73,13 @@ const Hero = () => {
                 <MdOutlineVerifiedUser className="text-green-dark" size={20} />
               </div>
               <div className="floating-card-text">
-                <h4>100% Natural <FaLeaf className="text-green-dark" size={12}/></h4>
+                <h4>100% Natural <FaLeaf className="text-green-dark" size={12} /></h4>
                 <p>No chemicals. No compromise.</p>
               </div>
             </motion.div>
 
             {/* Floating Card 2: Same Day Delivery */}
-            <motion.div 
+            <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
               className="floating-card floating-card-2"
@@ -88,13 +88,13 @@ const Hero = () => {
                 <FaTruck className="text-orange" size={20} />
               </div>
               <div className="floating-card-text">
-                <h4>Same Day Delivery <FaTruck className="text-orange" size={12}/></h4>
+                <h4>Same Day Delivery <FaTruck className="text-orange" size={12} /></h4>
                 <p>Freshness, delivered fast.</p>
               </div>
             </motion.div>
 
             {/* Floating Card 3: Reviews */}
-            <motion.div 
+            <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 0.5 }}
               className="floating-card floating-card-3"

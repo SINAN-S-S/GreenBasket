@@ -35,7 +35,7 @@ const About = () => {
           className="about-story-img-container"
         >
           <img 
-            src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2574&auto=format&fit=crop" 
+            src="https://pin.it/65XlwBBHG" 
             alt="Fresh produce" 
             className="about-story-img"
           />

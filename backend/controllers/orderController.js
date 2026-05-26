@@ -6,7 +6,7 @@ const Product = require('../models/Product');
 // @access  Private
 const addOrderItems = async (req, res) => {
   try {
-    const { orderItems, shippingAddress, paymentMethod, totalPrice } = req.body;
+    const { orderItems, shippingAddress, paymentMethod, totalPrice, isPaid } = req.body;
 
     if (orderItems && orderItems.length === 0) {
       return res.status(400).json({ message: 'No order items' });
@@ -17,6 +17,7 @@ const addOrderItems = async (req, res) => {
         shippingAddress,
         paymentMethod,
         totalPrice,
+        isPaid: isPaid || false,
       });
 
       const createdOrder = await order.save();

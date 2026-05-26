@@ -27,15 +27,17 @@ const Checkout = () => {
     }
   }, [user, cart, navigate]);
 
-  const placeOrderHandler = async (e) => {
-    e.preventDefault();
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
-    if (!address || !city || !postalCode) {
-      Swal.fire('Missing Information', 'Please fill in all address fields.', 'warning');
-      return;
-    }
-
-    setCheckingOut(true);
+  const saveOrderToDB = async (isPaid) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
       
@@ -52,7 +54,8 @@ const Checkout = () => {
         orderItems,
         shippingAddress: { address, city, postalCode },
         paymentMethod,
-        totalPrice: cartTotal
+        totalPrice: cartTotal,
+        isPaid
       }, config);
 
       clearCart();
@@ -60,6 +63,94 @@ const Checkout = () => {
     } catch (error) {
       Swal.fire('Error', error.response?.data?.message || 'Failed to place order', 'error');
       setCheckingOut(false);
+    }
+  };
+
+  const placeOrderHandler = async (e) => {
+    e.preventDefault();
+
+    if (!address || !city || !postalCode) {
+      Swal.fire('Missing Information', 'Please fill in all address fields.', 'warning');
+      return;
+    }
+
+    setCheckingOut(true);
+
+    if (paymentMethod === 'UPI') {
+      const res = await loadRazorpay();
+      if (!res) {
+        Swal.fire('Error', 'Razorpay SDK failed to load', 'error');
+        setCheckingOut(false);
+        return;
+      }
+
+      try {
+        const config = { headers: { Authorization: `Bearer ${user.token}` } };
+        
+        const { data: orderData } = await axios.post('http://localhost:5000/api/payment/create-order', {
+          amount: cartTotal
+        }, config);
+
+        if (!orderData.success) {
+          Swal.fire('Error', 'Failed to create payment order', 'error');
+          setCheckingOut(false);
+          return;
+        }
+
+        const options = {
+          key: 'rzp_test_StsYL3bwhCfGUM',
+          amount: orderData.order.amount,
+          currency: 'INR',
+          name: 'GreenBasket',
+          description: 'Payment for your order',
+          order_id: orderData.order.id,
+          handler: async function (response) {
+            try {
+              const verifyData = await axios.post('http://localhost:5000/api/payment/verify-payment', {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }, config);
+
+              if (verifyData.data.success) {
+                await saveOrderToDB(true);
+              } else {
+                Swal.fire('Error', 'Payment verification failed', 'error');
+                setCheckingOut(false);
+              }
+            } catch (error) {
+              Swal.fire('Error', 'Payment verification failed', 'error');
+              setCheckingOut(false);
+            }
+          },
+          prefill: {
+            name: user.name,
+            email: user.email,
+          },
+          theme: {
+            color: '#10b981'
+          },
+          modal: {
+            ondismiss: function() {
+              setCheckingOut(false);
+            }
+          }
+        };
+        
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+        
+        paymentObject.on('payment.failed', function (response) {
+          Swal.fire('Error', response.error.description, 'error');
+          setCheckingOut(false);
+        });
+
+      } catch (error) {
+        Swal.fire('Error', error.response?.data?.message || 'Failed to initialize payment', 'error');
+        setCheckingOut(false);
+      }
+    } else {
+      await saveOrderToDB(false);
     }
   };
 
