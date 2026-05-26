@@ -147,6 +147,32 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+// @desc    Delete a cancelled order
+// @route   DELETE /api/orders/:id
+// @access  Private
+const deleteOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (order) {
+      if (order.user.toString() !== req.user._id.toString() && !req.user.isAdmin) {
+        return res.status(401).json({ message: 'Not authorized to delete this order' });
+      }
+
+      if (!order.isCancelled) {
+        return res.status(400).json({ message: 'Can only delete cancelled orders' });
+      }
+
+      await Order.findByIdAndDelete(req.params.id);
+      res.json({ message: 'Order removed' });
+    } else {
+      res.status(404).json({ message: 'Order not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+};
+
 module.exports = {
   addOrderItems,
   getOrders,
@@ -154,4 +180,5 @@ module.exports = {
   getOrderById,
   updateOrderToDelivered,
   cancelOrder,
+  deleteOrder,
 };

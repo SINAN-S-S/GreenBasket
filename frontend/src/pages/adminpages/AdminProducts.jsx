@@ -64,7 +64,7 @@ const AdminProducts = () => {
     }
   };
 
-  const categories = ['All', 'Fresh Fruits', 'Vegetables', 'Organic Products', 'Fruit Juices'];
+  const categories = ['All', 'Fresh Fruits', 'Vegetables', 'Organic Products', 'Fruit Juices', 'Meat'];
 
   return (
     <div>

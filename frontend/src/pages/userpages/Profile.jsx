@@ -77,6 +77,45 @@ const Profile = () => {
     }
   };
 
+  const deleteOrderHandler = async (id) => {
+    const result = await Swal.fire({
+      title: 'Delete Order?',
+      text: "Are you sure you want to permanently remove this cancelled order from your history?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#9ca3af',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const config = { headers: { Authorization: `Bearer ${user.token}` } };
+        await axios.delete(`http://localhost:5000/api/orders/${id}`, config);
+        
+        Swal.fire({
+          toast: true,
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Order Deleted',
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+        // Refresh orders
+        const { data } = await axios.get('http://localhost:5000/api/orders/myorders', config);
+        setOrders(data);
+      } catch (error) {
+        console.error("Failed to delete order", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.response?.data?.message || 'Failed to delete order'
+        });
+      }
+    }
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -253,6 +292,16 @@ const Profile = () => {
                         className="profile-cancel-btn"
                       >
                         Cancel Order
+                      </button>
+                    )}
+                    
+                    {order.isCancelled && (
+                      <button 
+                        onClick={() => deleteOrderHandler(order._id)}
+                        className="profile-cancel-btn"
+                        style={{ backgroundColor: '#ef4444', marginLeft: '10px' }}
+                      >
+                        Delete
                       </button>
                     )}
                   </div>

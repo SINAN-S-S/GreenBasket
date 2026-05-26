@@ -35,8 +35,8 @@ const About = () => {
           className="about-story-img-container"
         >
           <img 
-            src="https://pin.it/65XlwBBHG" 
-            alt="Fresh produce" 
+            src="/images/about_collage.jpg" 
+            alt="About GreenBasket Farming" 
             className="about-story-img"
           />
         </motion.div>

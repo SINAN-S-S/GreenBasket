@@ -215,6 +215,7 @@ const AdminProductForm = () => {
                       <option value="Vegetables">Vegetables</option>
                       <option value="Organic Products">Organic Products</option>
                       <option value="Fruit Juices">Fruit Juices</option>
+                      <option value="Meat">Meat</option>
                     </select>
                   </div>
                   <div className="admin-form-group">

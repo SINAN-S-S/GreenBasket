@@ -32,7 +32,7 @@ const BlogSection = () => {
   ];
 
   return (
-    <section className="blog-section">
+    <section id="blog" className="blog-section">
       <div className="blog-header">
         <h2 className="blog-title">Latest News</h2>
         <p className="blog-subtitle">Stay updated with our latest articles on healthy living, organic farming, and fresh recipes.</p>

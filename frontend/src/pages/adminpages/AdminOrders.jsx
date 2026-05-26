@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import Swal from 'sweetalert2';
-import { FiCheckCircle, FiXCircle, FiTruck } from 'react-icons/fi';
+import { FiCheckCircle, FiXCircle, FiTruck, FiTrash2 } from 'react-icons/fi';
 import '../adminCss/AdminOrders.css';
 
 const AdminOrders = () => {
@@ -52,6 +52,36 @@ const AdminOrders = () => {
         fetchOrders();
       } catch (error) {
         Swal.fire('Error', error.response?.data?.message || 'Error updating order', 'error');
+      }
+    }
+  };
+
+  const deleteOrderHandler = async (id) => {
+    const result = await Swal.fire({
+      title: 'Delete Order?',
+      text: "Are you sure you want to permanently delete this cancelled order?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#9ca3af',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const config = { headers: { Authorization: `Bearer ${user.token}` } };
+        await axios.delete(`http://localhost:5000/api/orders/${id}`, config);
+        Swal.fire({
+          toast: true,
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Order Deleted',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        fetchOrders();
+      } catch (error) {
+        Swal.fire('Error', error.response?.data?.message || 'Error deleting order', 'error');
       }
     }
   };
@@ -121,24 +151,38 @@ const AdminOrders = () => {
                       )}
                     </td>
                     <td>
-                      {order.isDelivered ? (
+                      {order.isCancelled ? (
+                        <div className="admin-orders-badge admin-orders-badge-danger">
+                          <FiXCircle /> Cancelled
+                        </div>
+                      ) : order.isDelivered ? (
                         <div className="admin-orders-badge admin-orders-badge-success">
                           <FiCheckCircle /> {new Date(order.deliveredAt).toLocaleDateString()}
                         </div>
                       ) : (
-                        <div className="admin-orders-badge admin-orders-badge-danger">
-                          <FiXCircle /> Pending
+                        <div className="admin-orders-badge admin-orders-badge-warning" style={{ backgroundColor: '#fef3c7', color: '#d97706' }}>
+                          <FiTruck /> Pending
                         </div>
                       )}
                     </td>
                     <td>
                       <div className="admin-orders-actions">
-                        {!order.isDelivered && (
+                        {!order.isDelivered && !order.isCancelled && (
                           <button 
                             onClick={() => deliverHandler(order._id)}
                             className="admin-orders-action-btn"
                           >
                             Mark Delivered
+                          </button>
+                        )}
+                        {order.isCancelled && (
+                          <button 
+                            onClick={() => deleteOrderHandler(order._id)}
+                            className="admin-action-btn admin-action-delete"
+                            title="Delete Order"
+                            style={{ padding: '0.5rem', marginLeft: '0.5rem' }}
+                          >
+                            <FiTrash2 />
                           </button>
                         )}
                       </div>

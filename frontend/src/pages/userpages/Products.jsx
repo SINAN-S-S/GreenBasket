@@ -22,6 +22,10 @@ const Products = () => {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
+    setCategory(categoryParam || '');
+  }, [categoryParam]);
+
+  useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
@@ -58,7 +62,7 @@ const Products = () => {
     fetchProducts();
   }, [category, sort, searchParam, minPrice, maxPrice]);
 
-  const categories = ['All', 'Fresh Fruits', 'Vegetables', 'Organic Products', 'Fruit Juices'];
+  const categories = ['All', 'Fresh Fruits', 'Vegetables', 'Organic Products', 'Fruit Juices', 'Meat'];
 
   return (
     <div className="products-page">
