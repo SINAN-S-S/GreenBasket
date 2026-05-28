@@ -90,7 +90,7 @@ const AdminDashboard = () => {
             <tbody>
               {recentOrders.map(order => (
                 <tr key={order._id}>
-                  <td className="admin-recent-id">{order._id.substring(18, 24)}</td>
+                  <td className="admin-recent-id">ORD-{order._id.substring(18, 24).toUpperCase()}</td>
                   <td>{order.user?.name || 'Unknown'}</td>
                   <td className="admin-recent-date">{new Date(order.createdAt).toLocaleDateString()}</td>
                   <td className="admin-recent-total">₹{order.totalPrice}</td>

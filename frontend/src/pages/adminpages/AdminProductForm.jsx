@@ -21,19 +21,32 @@ const AdminProductForm = () => {
   const [countInStock, setCountInStock] = useState(0);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [isNewProduct, setIsNewProduct] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
         setName(data.name);
-        setPrice(data.price);
-        setImage(data.image);
-        setType(data.type);
-        setDescription(data.description);
+        
+        // Check if it's a newly created product from the 'Add Product' button
+        if (data.name === 'Sample name') {
+          setIsNewProduct(true);
+          // Optionally clear sample data so the form looks empty for a new product
+          setName('');
+          setPrice('');
+          setDescription('');
+          setCountInStock('');
+        } else {
+          setPrice(data.price);
+          setDescription(data.description);
+          setCountInStock(data.countInStock || 0);
+        }
+
+        setImage(data.image === '/images/sample.jpg' ? '' : data.image);
+        setType(data.type === 'Sample category' ? '' : data.type);
         setDiscount(data.discount);
         setUnit(data.unit || '1kg');
-        setCountInStock(data.countInStock || 0);
       } catch (error) {
         console.error('Error fetching product:', error);
       } finally {
@@ -94,13 +107,13 @@ const AdminProductForm = () => {
         toast: true,
         position: 'bottom-end',
         icon: 'success',
-        title: 'Product Updated',
+        title: isNewProduct ? 'Product Added' : 'Product Updated',
         showConfirmButton: false,
         timer: 1500
       });
       navigate('/admin/products');
     } catch (error) {
-      Swal.fire('Error', error.response?.data?.message || 'Error updating product', 'error');
+      Swal.fire('Error', error.response?.data?.message || 'Error saving product', 'error');
     }
   };
 
@@ -112,7 +125,7 @@ const AdminProductForm = () => {
         <Link to="/admin/products" className="admin-form-back-btn">
           <FiArrowLeft />
         </Link>
-        <h1 className="admin-form-title">Edit Product</h1>
+        <h1 className="admin-form-title">{isNewProduct ? 'Add Product' : 'Edit Product'}</h1>
       </div>
 
       <div className="admin-form-card">

@@ -122,7 +122,7 @@ const AdminOrders = () => {
               <tbody>
                 {orders.map((order) => (
                   <tr key={order._id}>
-                    <td className="admin-orders-id">{order._id.substring(18, 24)}</td>
+                    <td className="admin-orders-id">ORD-{order._id.substring(18, 24).toUpperCase()}</td>
                     <td>
                       <div className="admin-orders-user-name">{order.user?.name || 'Unknown User'}</div>
                       <div className="admin-orders-user-email">{order.user?.email}</div>

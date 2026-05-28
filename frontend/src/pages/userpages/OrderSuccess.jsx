@@ -64,7 +64,7 @@ const OrderSuccess = () => {
           <div className="order-details-header">
             <div>
               <p className="order-details-label">Order ID</p>
-              <p className="order-details-id">{order._id}</p>
+              <p className="order-details-id">ORD-{order._id.substring(18, 24).toUpperCase()}</p>
             </div>
             <div className="order-details-amount-col">
               <p className="order-details-label">Total Amount</p>

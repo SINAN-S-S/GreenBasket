@@ -273,7 +273,7 @@ const Profile = () => {
               <div key={order._id} className="profile-order-card">
                 <div className="profile-order-header">
                   <div>
-                    <h3 className="profile-order-id">Order ID: {order._id.substring(18, 24)}</h3>
+                    <h3 className="profile-order-id">Order ID: ORD-{order._id.substring(18, 24).toUpperCase()}</h3>
                     <p className="profile-order-date">{new Date(order.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div className="text-right">
