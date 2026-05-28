@@ -19,13 +19,10 @@ const AdminDashboard = () => {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
         
-        // Fetch users
         const { data: users } = await axios.get('http://localhost:5000/api/users', config);
         
-        // Fetch products
         const { data: products } = await axios.get('http://localhost:5000/api/products');
         
-        // Fetch orders
         const { data: orders } = await axios.get('http://localhost:5000/api/orders', config);
 
         const totalSales = orders.reduce((acc, order) => acc + order.totalPrice, 0);
@@ -37,7 +34,6 @@ const AdminDashboard = () => {
           totalUsers: users.length
         });
         
-        // set recent orders (top 5)
         setRecentOrders(orders.slice(0, 5));
       } catch (error) {
         console.error('Error fetching dashboard stats', error);

@@ -18,7 +18,6 @@ const AdminLayout = () => {
 
   return (
     <div className="admin-layout-container">
-      {/* Sidebar */}
       <aside className="admin-sidebar">
         <div className="admin-sidebar-header">
           <Link to="/" className="admin-sidebar-logo">
@@ -64,7 +63,6 @@ const AdminLayout = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
       <main className="admin-main-content">
         <Outlet />
       </main>

@@ -63,7 +63,6 @@ const Profile = () => {
           showConfirmButton: false
         });
 
-        // Refresh orders
         const { data } = await axios.get('http://localhost:5000/api/orders/myorders', config);
         setOrders(data);
       } catch (error) {
@@ -102,7 +101,6 @@ const Profile = () => {
           timer: 1500
         });
 
-        // Refresh orders
         const { data } = await axios.get('http://localhost:5000/api/orders/myorders', config);
         setOrders(data);
       } catch (error) {
@@ -141,9 +139,7 @@ const Profile = () => {
       );
 
       setMessage('Profile updated successfully!');
-      // Update local storage to keep session valid
       localStorage.setItem('userInfo', JSON.stringify(data));
-      // In a real app we'd dispatch an update to AuthContext, but a reload works for simplicity
       setTimeout(() => window.location.reload(), 1500);
     } catch (error) {
       setErrorMsg(error.response?.data?.message || 'Failed to update profile');
@@ -321,20 +317,16 @@ const Profile = () => {
                   ))}
                 </div>
 
-                {/* Order Tracking Bar */}
                 {!order.isCancelled && (
                   <div className="profile-order-tracking">
                     <h4 className="profile-order-tracking-title">Track Order</h4>
                     <div className="profile-tracking-bar">
-                      {/* Background Line */}
                       <div className="profile-tracking-bg-line"></div>
-                      {/* Active Line */}
                       <div 
                         className={`profile-tracking-active-line`} 
                         style={{ width: order.isDelivered ? 'calc(100% - 2rem)' : 'calc(50% - 1rem)' }}
                       ></div>
                       
-                      {/* Step 1: Placed */}
                       <div className="profile-tracking-step">
                         <div className="profile-tracking-icon profile-tracking-icon-active">
                           <FiPackage />
@@ -342,7 +334,6 @@ const Profile = () => {
                         <span className="profile-tracking-label">Placed</span>
                       </div>
 
-                      {/* Step 2: Processing */}
                       <div className="profile-tracking-step">
                         <div className={`profile-tracking-icon ${
                           order.isDelivered ? 'profile-tracking-icon-active' : 'profile-tracking-icon-processing'
@@ -354,7 +345,6 @@ const Profile = () => {
                         </span>
                       </div>
 
-                      {/* Step 3: Delivered */}
                       <div className="profile-tracking-step">
                         <div className={`profile-tracking-icon ${
                           order.isDelivered ? 'profile-tracking-icon-active' : 'profile-tracking-icon-inactive'

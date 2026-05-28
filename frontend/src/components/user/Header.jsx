@@ -23,7 +23,6 @@ const Header = () => {
     return null;
   }
 
-  // Handle Search Input Change
   const handleSearchChange = async (e) => {
     const keyword = e.target.value;
     setSearchKeyword(keyword);
@@ -64,13 +63,11 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-container">
-        {/* Logo */}
         <Link to="/" className="header-logo">
           <FiShoppingBag className="header-logo-icon" />
           <span>Green<span className="header-logo-accent">Basket</span></span>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="header-nav">
           <Link to="/" className={`header-nav-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
           <Link to="/products" className={`header-nav-link ${location.pathname.startsWith('/products') ? 'active' : ''}`}>Products</Link>
@@ -92,7 +89,6 @@ const Header = () => {
             <button type="submit" className="header-search-btn"><FiSearch /></button>
           </form>
 
-          {/* Autocomplete Dropdown */}
           {showSuggestions && suggestions.length > 0 && (
             <div className="header-suggestions">
               {suggestions.map((item) => (
@@ -112,7 +108,6 @@ const Header = () => {
           )}
         </div>
 
-        {/* Icons */}
         <div className="header-icons">
           <Link to="/wishlist" className="header-icon-link header-icon-link-hidden">
             <FiHeart size={22} />
@@ -160,7 +155,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="mobile-menu">
           <form onSubmit={handleSearchSubmit} className="mobile-search-form">

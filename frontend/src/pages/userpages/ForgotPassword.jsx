@@ -16,7 +16,6 @@ const ForgotPassword = () => {
     try {
       const { data } = await axios.post('http://localhost:5000/api/auth/forgotpassword', { email });
       
-      // Simulate sending email by showing the link in a SweetAlert
       Swal.fire({
         icon: 'success',
         title: 'Email Sent!',
@@ -46,7 +45,6 @@ const ForgotPassword = () => {
     <div className="auth-modal-overlay">
       <div className="auth-modal-container">
         
-        {/* Header with Logo and Close */}
         <div className="auth-modal-header">
           <div className="auth-modal-logo-container">
             <span className="auth-modal-logo">Green<span className="auth-modal-logo-highlight">Basket</span></span>
@@ -56,7 +54,6 @@ const ForgotPassword = () => {
           </Link>
         </div>
 
-        {/* Body */}
         <div className="auth-modal-body">
           <h2 className="auth-modal-title">
             Forgot Password?
@@ -66,7 +63,6 @@ const ForgotPassword = () => {
           </p>
 
           <form onSubmit={submitHandler}>
-            {/* Email */}
             <div className="auth-form-group">
               <label htmlFor="email-address" className="auth-form-label">
                 Email address <span className="auth-form-required">*</span>
@@ -82,7 +78,6 @@ const ForgotPassword = () => {
               />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -91,7 +86,6 @@ const ForgotPassword = () => {
               {isLoading ? 'Sending...' : 'Send Reset Link'}
             </button>
 
-            {/* Footer text */}
             <div className="auth-footer-text">
               Remember your password? <Link to="/login" className="auth-footer-link">Back to login</Link>
             </div>

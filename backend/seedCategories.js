@@ -4,7 +4,6 @@ const Product = require('./models/Product');
 const MONGO_URI = 'mongodb://127.0.0.1:27017/greenbasket';
 
 const products = [
-  // Fresh Fruits
   { name: 'Red Apple', type: 'Fresh Fruits', description: 'Fresh and crunchy red apples', unit: '1kg', price: 150, countInStock: 50, image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6fac6?w=500&q=80', discount: 10 },
   { name: 'Banana', type: 'Fresh Fruits', description: 'Sweet ripe bananas', unit: '1 Dozen', price: 60, countInStock: 100, image: 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?w=500&q=80', discount: 0 },
   { name: 'Orange', type: 'Fresh Fruits', description: 'Juicy oranges rich in Vitamin C', unit: '1kg', price: 80, countInStock: 60, image: 'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=500&q=80', discount: 5 },
@@ -16,7 +15,6 @@ const products = [
   { name: 'Watermelon', type: 'Fresh Fruits', description: 'Large fresh watermelon', unit: '1pc', price: 80, countInStock: 15, image: 'https://images.unsplash.com/photo-1589984662646-e7b2e4962f18?w=500&q=80', discount: 20 },
   { name: 'Pomegranate', type: 'Fresh Fruits', description: 'Fresh red pomegranate', unit: '1kg', price: 180, countInStock: 45, image: 'https://images.unsplash.com/photo-1615485925600-97237c4ff1cb?w=500&q=80', discount: 5 },
 
-  // Vegetables
   { name: 'Potato', type: 'Vegetables', description: 'Fresh farm potatoes', unit: '1kg', price: 30, countInStock: 200, image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500&q=80', discount: 0 },
   { name: 'Tomato', type: 'Vegetables', description: 'Red ripe tomatoes', unit: '1kg', price: 40, countInStock: 150, image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500&q=80', discount: 10 },
   { name: 'Onion', type: 'Vegetables', description: 'Fresh red onions', unit: '1kg', price: 35, countInStock: 300, image: 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=500&q=80', discount: 0 },
@@ -28,7 +26,6 @@ const products = [
   { name: 'Capsicum', type: 'Vegetables', description: 'Green bell peppers', unit: '500g', price: 60, countInStock: 70, image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=500&q=80', discount: 15 },
   { name: 'Cucumber', type: 'Vegetables', description: 'Fresh cucumbers for salad', unit: '1kg', price: 40, countInStock: 90, image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500&q=80', discount: 0 },
 
-  // Organic Products
   { name: 'Organic Honey', type: 'Organic Products', description: 'Pure raw organic honey', unit: '500g', price: 350, countInStock: 40, image: 'https://images.unsplash.com/photo-1587049352847-4d4b127a5198?w=500&q=80', discount: 0 },
   { name: 'Organic Oats', type: 'Organic Products', description: 'Healthy organic rolled oats', unit: '1kg', price: 250, countInStock: 60, image: 'https://images.unsplash.com/photo-1517673132405-a56a62b18caf?w=500&q=80', discount: 10 },
   { name: 'Organic Quinoa', type: 'Organic Products', description: 'High protein organic quinoa', unit: '500g', price: 400, countInStock: 30, image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&q=80', discount: 5 },
@@ -40,7 +37,6 @@ const products = [
   { name: 'Organic Olive Oil', type: 'Organic Products', description: 'Extra virgin organic olive oil', unit: '500ml', price: 800, countInStock: 15, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&q=80', discount: 10 },
   { name: 'Organic Brown Rice', type: 'Organic Products', description: 'Healthy organic brown rice', unit: '1kg', price: 150, countInStock: 100, image: 'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=500&q=80', discount: 0 },
 
-  // Fruit Juices
   { name: 'Fresh Orange Juice', type: 'Fruit Juices', description: '100% freshly squeezed orange juice', unit: '1L', price: 120, countInStock: 30, image: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?w=500&q=80', discount: 0 },
   { name: 'Apple Juice', type: 'Fruit Juices', description: 'Pure clear apple juice', unit: '1L', price: 110, countInStock: 40, image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500&q=80', discount: 5 },
   { name: 'Mango Nectar', type: 'Fruit Juices', description: 'Thick and sweet mango nectar', unit: '1L', price: 150, countInStock: 25, image: 'https://images.unsplash.com/photo-1622597467836-f38ec9d58428?w=500&q=80', discount: 10 },

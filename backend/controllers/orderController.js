@@ -1,9 +1,6 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 
-// @desc    Create new order
-// @route   POST /api/orders
-// @access  Private
 const addOrderItems = async (req, res) => {
   try {
     const { orderItems, shippingAddress, paymentMethod, totalPrice, isPaid } = req.body;
@@ -22,7 +19,6 @@ const addOrderItems = async (req, res) => {
 
       const createdOrder = await order.save();
 
-      // Decrement stock for each ordered item
       for (const item of orderItems) {
         const product = await Product.findById(item.product);
         if (product) {
@@ -38,9 +34,6 @@ const addOrderItems = async (req, res) => {
   }
 };
 
-// @desc    Get all orders
-// @route   GET /api/orders
-// @access  Private/Admin
 const getOrders = async (req, res) => {
   try {
     const orders = await Order.find({}).populate('user', 'id name email').sort({ createdAt: -1 });
@@ -50,9 +43,6 @@ const getOrders = async (req, res) => {
   }
 };
 
-// @desc    Get logged in user orders
-// @route   GET /api/orders/myorders
-// @access  Private
 const getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
@@ -62,9 +52,6 @@ const getMyOrders = async (req, res) => {
   }
 };
 
-// @desc    Update order to delivered
-// @route   PUT /api/orders/:id/deliver
-// @access  Private/Admin
 const updateOrderToDelivered = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -83,15 +70,11 @@ const updateOrderToDelivered = async (req, res) => {
   }
 };
 
-// @desc    Get order by ID
-// @route   GET /api/orders/:id
-// @access  Private
 const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate('user', 'name email');
 
     if (order) {
-      // Check if user is admin or the order belongs to the user
       if (req.user.isAdmin || order.user._id.toString() === req.user._id.toString()) {
         res.json(order);
       } else {
@@ -105,9 +88,6 @@ const getOrderById = async (req, res) => {
   }
 };
 
-// @desc    Cancel an order
-// @route   PUT /api/orders/:id/cancel
-// @access  Private
 const cancelOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -128,7 +108,6 @@ const cancelOrder = async (req, res) => {
       order.isCancelled = true;
       order.cancelledAt = Date.now();
 
-      // Restore product stock
       for (const item of order.orderItems) {
         const product = await Product.findById(item.product);
         if (product) {
@@ -147,9 +126,6 @@ const cancelOrder = async (req, res) => {
   }
 };
 
-// @desc    Delete a cancelled order
-// @route   DELETE /api/orders/:id
-// @access  Private
 const deleteOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);

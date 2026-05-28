@@ -13,7 +13,6 @@ export const WishlistProvider = ({ children }) => {
   });
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Fetch wishlist from DB when user logs in
   useEffect(() => {
     if (user) {
       const fetchWishlist = async () => {
@@ -26,7 +25,6 @@ export const WishlistProvider = ({ children }) => {
             mergedWishlist = [...data.wishlist];
           }
 
-          // Merge local wishlist if it exists
           const localWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
           localWishlist.forEach(localItem => {
             const localId = localItem._id || localItem;
@@ -49,7 +47,6 @@ export const WishlistProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Sync wishlist to local storage and DB whenever it changes
   useEffect(() => {
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
     
@@ -77,8 +74,6 @@ export const WishlistProvider = ({ children }) => {
       }
     });
 
-    // We can't rely on isAdded strictly inside the setWishlist callback for Swal
-    // But since state updates are async, we can check if it was in the wishlist before the toggle
     const existingBeforeToggle = wishlist.find((item) => item._id === product._id);
     if (!existingBeforeToggle) {
       Swal.fire({

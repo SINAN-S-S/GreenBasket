@@ -58,7 +58,6 @@ const ResetPassword = () => {
     <div className="auth-modal-overlay">
       <div className="auth-modal-container">
         
-        {/* Header with Logo and Close */}
         <div className="auth-modal-header">
           <div className="auth-modal-logo-container">
             <span className="auth-modal-logo">Green<span className="auth-modal-logo-highlight">Basket</span></span>
@@ -68,7 +67,6 @@ const ResetPassword = () => {
           </Link>
         </div>
 
-        {/* Body */}
         <div className="auth-modal-body">
           <h2 className="auth-modal-title">
             Set New Password
@@ -78,7 +76,6 @@ const ResetPassword = () => {
           </p>
 
           <form onSubmit={submitHandler}>
-            {/* New Password */}
             <div className="auth-form-group">
               <label htmlFor="password" className="auth-form-label">
                 New Password <span className="auth-form-required">*</span>
@@ -103,7 +100,6 @@ const ResetPassword = () => {
               </div>
             </div>
 
-            {/* Confirm New Password */}
             <div className="auth-form-group" style={{ marginBottom: '2rem' }}>
               <label htmlFor="confirm-password" className="auth-form-label">
                 Confirm New Password <span className="auth-form-required">*</span>
@@ -128,7 +124,6 @@ const ResetPassword = () => {
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}

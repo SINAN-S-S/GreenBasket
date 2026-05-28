@@ -71,7 +71,6 @@ const ProductDetail = () => {
       <div className="product-detail-container">
         <div className="product-detail-grid">
           
-          {/* Image Section */}
           <div className="product-detail-img-container">
             {product.discount > 0 && (
               <div className="product-detail-badge">
@@ -89,7 +88,6 @@ const ProductDetail = () => {
             <img src={product.image} alt={product.name} className="product-detail-img" />
           </div>
 
-          {/* Details Section */}
           <div className="product-detail-info">
             <div className="product-detail-meta">
               <span className="product-detail-type">

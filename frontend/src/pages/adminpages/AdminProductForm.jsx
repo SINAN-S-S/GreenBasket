@@ -29,10 +29,8 @@ const AdminProductForm = () => {
         const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
         setName(data.name);
         
-        // Check if it's a newly created product from the 'Add Product' button
         if (data.name === 'Sample name') {
           setIsNewProduct(true);
-          // Optionally clear sample data so the form looks empty for a new product
           setName('');
           setPrice('');
           setDescription('');
@@ -131,7 +129,6 @@ const AdminProductForm = () => {
       <div className="admin-form-card">
         <div className="admin-form-grid">
           
-          {/* Left Side: Image Preview & Upload */}
           <div className="admin-form-image-section">
             <div className="admin-form-image-preview">
               {image ? (
@@ -143,7 +140,6 @@ const AdminProductForm = () => {
                 </div>
               )}
               
-              {/* Overlay for hovering */}
               <label className="admin-form-image-overlay">
                 Change Image
                 <input type="file" onChange={uploadFileHandler} />
@@ -156,7 +152,6 @@ const AdminProductForm = () => {
             </label>
           </div>
 
-          {/* Right Side: Form Inputs */}
           <div className="admin-form-inputs-section">
             <form onSubmit={submitHandler} className="admin-form">
               <div className="admin-form-fields">

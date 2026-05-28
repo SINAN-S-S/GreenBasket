@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     },
     username: {
       type: String,
-      required: false, // false to prevent crashing existing user docs
+      required: false,
     },
     email: {
       type: String,
@@ -65,12 +65,10 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Match user entered password to hashed password in database
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// Encrypt password using bcrypt
 userSchema.pre('save', async function () {
   if (!this.isModified('password')) {
     return;
@@ -80,19 +78,15 @@ userSchema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Generate and hash password token
 const crypto = require('crypto');
 userSchema.methods.getResetPasswordToken = function () {
-  // Generate token
   const resetToken = crypto.randomBytes(20).toString('hex');
 
-  // Hash token and set to resetPasswordToken field
   this.resetPasswordToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
 
-  // Set expire (10 minutes)
   this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
 
   return resetToken;

@@ -1,7 +1,6 @@
 const crypto = require("crypto");
 const razorpay = require("../config/razorpay.js");
 
-// CREATE ORDER
 const createRazorpayOrder = async (req, res) => {
   try {
     const { amount } = req.body;
@@ -28,7 +27,6 @@ const createRazorpayOrder = async (req, res) => {
   }
 };
 
-// VERIFY PAYMENT
 const verifyPayment = async (req, res) => {
   try {
     const {

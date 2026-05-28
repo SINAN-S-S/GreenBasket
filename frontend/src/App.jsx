@@ -36,7 +36,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Show splash screen for 2.5 seconds
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2500);
@@ -71,7 +70,6 @@ const App = () => {
                   <Route path="/about" element={<About />} />
                   <Route path="/contact" element={<Contact />} />
 
-                  {/* Admin Routes */}
                   <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
                     <Route path="dashboard" element={<AdminDashboard />} />
                     <Route path="products" element={<AdminProducts />} />
@@ -83,7 +81,6 @@ const App = () => {
                   </Route>
                 </Routes>
               </main>
-              {/* Hide footer on admin pages by modifying Footer logic or just keeping it (AdminLayout is flex h-screen so it might push it, wait, AdminLayout is full screen. Actually, let's keep Footer outside since the layout has main flex-grow) */}
               <Footer />
             </div>
           </Router>

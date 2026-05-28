@@ -25,7 +25,6 @@ const AdminRestore = () => {
 
   useEffect(() => {
     fetchDeletedProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const restoreHandler = async (id) => {
@@ -34,7 +33,7 @@ const AdminRestore = () => {
       text: "This product will be visible in the store again.",
       icon: 'question',
       showCancelButton: true,
-      confirmButtonColor: '#22c55e', // brand-green
+      confirmButtonColor: '#22c55e',
       cancelButtonColor: '#9ca3af',
       confirmButtonText: 'Yes, restore it!'
     });

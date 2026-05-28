@@ -11,7 +11,6 @@ export const CartProvider = ({ children }) => {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  // Fetch cart from DB when user logs in
   useEffect(() => {
     if (user) {
       const fetchCart = async () => {
@@ -19,7 +18,6 @@ export const CartProvider = ({ children }) => {
           const config = { headers: { Authorization: `Bearer ${user.token}` } };
           const { data } = await axios.get('http://localhost:5000/api/users/profile', config);
           if (data.cart && data.cart.length > 0) {
-            // Map the DB cart format ({ product: object, qty: number }) to local format ({ ...product, qty: number })
             const mappedCart = data.cart.map(item => ({
               ...item.product,
               qty: item.qty,
@@ -36,7 +34,6 @@ export const CartProvider = ({ children }) => {
     }
   }, [user]);
 
-  // Sync cart to local storage and DB whenever it changes
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
     

@@ -7,7 +7,6 @@ const PromotionalBanner = () => {
   return (
     <section className="promo-section">
       <div className="promo-grid">
-        {/* Banner 1 */}
         <div className="promo-banner promo-banner-orange">
           <img 
             src="/images/promo_juice.png" 
@@ -23,7 +22,6 @@ const PromotionalBanner = () => {
           </div>
         </div>
 
-        {/* Banner 2 */}
         <div className="promo-banner promo-banner-green">
           <img 
             src="/images/promo_veg.png" 

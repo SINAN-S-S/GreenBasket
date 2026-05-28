@@ -1,9 +1,6 @@
 const User = require('../models/User');
 const Order = require('../models/Order');
 
-// @desc    Get user profile
-// @route   GET /api/users/profile
-// @access  Private
 const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).populate('cart.product').populate('wishlist');
@@ -26,9 +23,6 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
 const updateUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -50,7 +44,7 @@ const updateUserProfile = async (req, res) => {
         username: updatedUser.username,
         email: updatedUser.email,
         isAdmin: updatedUser.isAdmin,
-        token: req.headers.authorization.split(' ')[1], // Preserve token
+        token: req.headers.authorization.split(' ')[1],
       });
     } else {
       res.status(404).json({ message: 'User not found' });
@@ -60,15 +54,11 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-// @desc    Sync user cart
-// @route   PUT /api/users/cart
-// @access  Private
 const syncUserCart = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     
     if (user) {
-      // req.body.cart should be an array of { product: ObjectId, qty: Number }
       user.cart = req.body.cart;
       await user.save();
       res.json({ message: 'Cart synced successfully' });
@@ -80,9 +70,6 @@ const syncUserCart = async (req, res) => {
   }
 };
 
-// @desc    Sync user wishlist
-// @route   PUT /api/users/wishlist
-// @access  Private
 const syncUserWishlist = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -99,9 +86,6 @@ const syncUserWishlist = async (req, res) => {
   }
 };
 
-// @desc    Get all active users
-// @route   GET /api/users
-// @access  Private/Admin
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({ isDeleted: { $ne: true } }).select('-password').lean();
@@ -121,9 +105,6 @@ const getUsers = async (req, res) => {
   }
 };
 
-// @desc    Get soft-deleted users
-// @route   GET /api/users/deleted/all
-// @access  Private/Admin
 const getDeletedUsers = async (req, res) => {
   try {
     const users = await User.find({ isDeleted: true }).select('-password');
@@ -133,9 +114,6 @@ const getDeletedUsers = async (req, res) => {
   }
 };
 
-// @desc    Toggle block status of user
-// @route   PUT /api/users/:id/block
-// @access  Private/Admin
 const toggleBlockUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -154,9 +132,6 @@ const toggleBlockUser = async (req, res) => {
   }
 };
 
-// @desc    Soft Delete User
-// @route   DELETE /api/users/:id
-// @access  Private/Admin
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -175,9 +150,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// @desc    Restore User
-// @route   PUT /api/users/:id/restore
-// @access  Private/Admin
 const restoreUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -193,9 +165,6 @@ const restoreUser = async (req, res) => {
   }
 };
 
-// @desc    Hard Delete User
-// @route   DELETE /api/users/:id/hard
-// @access  Private/Admin
 const hardDeleteUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -210,9 +179,6 @@ const hardDeleteUser = async (req, res) => {
   }
 };
 
-// @desc    Empty user trash
-// @route   DELETE /api/users/deleted/all/empty
-// @access  Private/Admin
 const emptyUserTrash = async (req, res) => {
   try {
     await User.deleteMany({ isDeleted: true });

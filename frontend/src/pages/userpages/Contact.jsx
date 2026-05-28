@@ -16,13 +16,11 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitStatus('success');
       setFormData({ name: '', email: '', message: '' });
       
-      // Reset status after a few seconds
       setTimeout(() => setSubmitStatus(null), 5000);
     }, 1500);
   };
@@ -31,7 +29,6 @@ const Contact = () => {
     <div className="contact-page">
       <div className="contact-container">
         
-        {/* Contact Info (Left Side) */}
         <div className="contact-info-sidebar">
           <div>
             <motion.h2 
@@ -98,7 +95,6 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Contact Form (Right Side) */}
         <div className="contact-form-section">
           <h3 className="contact-form-title">Send us a Message</h3>
           
@@ -170,7 +166,6 @@ const Contact = () => {
   );
 };
 
-// Simple inline component for the success icon (or you can import it)
 const FiCheckCircle = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
 );

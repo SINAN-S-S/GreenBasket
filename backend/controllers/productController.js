@@ -1,8 +1,5 @@
 const Product = require('../models/Product');
 
-// @desc    Fetch all products
-// @route   GET /api/products
-// @access  Public
 const getProducts = async (req, res) => {
   try {
     const keyword = req.query.keyword
@@ -16,16 +13,13 @@ const getProducts = async (req, res) => {
 
     const category = req.query.category ? { type: req.query.category } : {};
 
-    // Price filter
     const priceFilter = {};
     if (req.query.minPrice) priceFilter.$gte = Number(req.query.minPrice);
     if (req.query.maxPrice) priceFilter.$lte = Number(req.query.maxPrice);
     const price = Object.keys(priceFilter).length > 0 ? { price: priceFilter } : {};
 
-    // Combine filters and exclude soft-deleted
     const filter = { ...keyword, ...category, ...price, isDeleted: { $ne: true } };
 
-    // Sorting
     let sort = {};
     if (req.query.sort) {
       if (req.query.sort === 'price_asc') sort.price = 1;
@@ -39,9 +33,6 @@ const getProducts = async (req, res) => {
   }
 };
 
-// @desc    Fetch single product
-// @route   GET /api/products/:id
-// @access  Public
 const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -56,9 +47,6 @@ const getProductById = async (req, res) => {
   }
 };
 
-// @desc    Create a product
-// @route   POST /api/products
-// @access  Private/Admin
 const createProduct = async (req, res) => {
   try {
     const product = new Product({
@@ -80,9 +68,6 @@ const createProduct = async (req, res) => {
   }
 };
 
-// @desc    Update a product
-// @route   PUT /api/products/:id
-// @access  Private/Admin
 const updateProduct = async (req, res) => {
   try {
     const { name, price, description, image, type, discount, unit, countInStock } = req.body;
@@ -109,9 +94,6 @@ const updateProduct = async (req, res) => {
   }
 };
 
-// @desc    Soft Delete a product
-// @route   DELETE /api/products/:id
-// @access  Private/Admin
 const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -128,9 +110,6 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-// @desc    Get soft-deleted products
-// @route   GET /api/products/deleted/all
-// @access  Private/Admin
 const getDeletedProducts = async (req, res) => {
   try {
     const products = await Product.find({ isDeleted: true });
@@ -140,9 +119,6 @@ const getDeletedProducts = async (req, res) => {
   }
 };
 
-// @desc    Restore a soft-deleted product
-// @route   PUT /api/products/:id/restore
-// @access  Private/Admin
 const restoreProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -159,9 +135,6 @@ const restoreProduct = async (req, res) => {
   }
 };
 
-// @desc    Permanently delete a product
-// @route   DELETE /api/products/:id/hard
-// @access  Private/Admin
 const hardDeleteProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -177,9 +150,6 @@ const hardDeleteProduct = async (req, res) => {
   }
 };
 
-// @desc    Empty product trash
-// @route   DELETE /api/products/deleted/all/empty
-// @access  Private/Admin
 const emptyProductTrash = async (req, res) => {
   try {
     await Product.deleteMany({ isDeleted: true });

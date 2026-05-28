@@ -6,7 +6,6 @@ import "../userCss/About.css";
 const About = () => {
   return (
     <div className="about-page">
-      {/* Hero Section */}
       <section className="about-hero">
         <motion.h1 
           initial={{ opacity: 0, y: -20 }}
@@ -26,7 +25,6 @@ const About = () => {
         </motion.p>
       </section>
 
-      {/* Story Section */}
       <section className="about-story">
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
@@ -73,7 +71,6 @@ const About = () => {
         </motion.div>
       </section>
 
-      {/* Benefits Section */}
       <section className="about-benefits">
         <div className="about-benefits-container">
           <div className="about-benefits-header">

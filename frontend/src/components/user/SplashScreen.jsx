@@ -6,29 +6,24 @@ import './SplashScreen.css';
 const SplashScreen = () => {
   return (
     <div className="splash-container">
-      {/* Left Door */}
       <motion.div
         initial={{ x: 0 }}
         exit={{ x: '-100%' }}
         transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 1.5 }}
         className="splash-door splash-door-left"
       >
-        {/* Door handle left */}
         <div className="splash-handle splash-handle-left" />
       </motion.div>
 
-      {/* Right Door */}
       <motion.div
         initial={{ x: 0 }}
         exit={{ x: '100%' }}
         transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 1.5 }}
         className="splash-door splash-door-right"
       >
-        {/* Door handle right */}
         <div className="splash-handle splash-handle-right" />
       </motion.div>
 
-      {/* Center Welcome Content */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

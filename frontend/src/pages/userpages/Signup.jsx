@@ -60,7 +60,6 @@ const Signup = () => {
   return (
     <div className="auth-overlay">
       <div className="auth-modal">
-        {/* Close Button */}
         <button 
           onClick={() => navigate('/')}
           className="auth-close-btn"

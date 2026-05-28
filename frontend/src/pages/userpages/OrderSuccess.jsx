@@ -49,7 +49,6 @@ const OrderSuccess = () => {
     <div className="order-success-page">
       <div className="order-success-card">
         
-        {/* Success Animation / Icon */}
         <div className="order-success-icon-container">
           <FiCheckCircle className="order-success-icon" />
         </div>
@@ -59,7 +58,6 @@ const OrderSuccess = () => {
           Thank you for shopping with GreenBasket. Your order has been received and is currently being processed.
         </p>
 
-        {/* Order Details Card */}
         <div className="order-details-box">
           <div className="order-details-header">
             <div>
@@ -96,7 +94,6 @@ const OrderSuccess = () => {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="order-success-actions">
           <Link 
             to="/profile" 

@@ -10,7 +10,6 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
-  // Extract query params
   const searchParams = new URLSearchParams(location.search);
   const categoryParam = searchParams.get('category');
   const searchParam = searchParams.get('search');
@@ -66,7 +65,6 @@ const Products = () => {
 
   return (
     <div className="products-page">
-      {/* Page Header */}
       <div className="products-header">
         <h1 className="products-title">Our Products</h1>
         <p className="products-subtitle">
@@ -75,9 +73,7 @@ const Products = () => {
       </div>
 
       <div className="products-layout">
-        {/* Sidebar Filters */}
         <div className="products-sidebar">
-          {/* Mobile Filter Toggle */}
           <button
             className="products-filter-toggle"
             onClick={() => setShowMobileFilters(!showMobileFilters)}
@@ -144,7 +140,6 @@ const Products = () => {
           </div>
         </div>
 
-        {/* Product Grid */}
         <div className="products-content">
           <div className="products-results-bar">
             <p className="products-results-text">Showing <span className="products-results-count">{products.length}</span> results</p>

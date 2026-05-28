@@ -14,7 +14,6 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-grid">
-          {/* Brand & Info */}
           <div>
             <Link to="/" className="footer-brand-logo">
               <FiShoppingBag className="footer-brand-icon" />
@@ -36,7 +35,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="footer-heading">Quick Links</h4>
             <ul className="footer-list">
@@ -48,7 +46,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Categories */}
           <div>
             <h4 className="footer-heading">Categories</h4>
             <ul className="footer-list">
@@ -60,7 +57,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact & Newsletter */}
           <div>
             <h4 className="footer-heading">Contact Us</h4>
             <ul className="footer-contact-list">

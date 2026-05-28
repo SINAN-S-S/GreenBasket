@@ -35,7 +35,7 @@ const productSchema = mongoose.Schema(
     },
     discount: {
       type: Number,
-      default: 0, // Discount percentage
+      default: 0,
     },
     isDeleted: {
       type: Boolean,

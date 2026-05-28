@@ -154,7 +154,6 @@ const Checkout = () => {
     }
   };
 
-  // Calculate estimated delivery
   const deliveryDate = new Date();
   deliveryDate.setDate(deliveryDate.getDate() + 2);
   const estimatedDelivery = deliveryDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
@@ -165,10 +164,8 @@ const Checkout = () => {
         <h1 className="checkout-title">Checkout</h1>
 
         <div className="checkout-layout">
-          {/* Left Column: Forms */}
           <div className="checkout-forms">
             
-            {/* Shipping Address Form */}
             <div className="checkout-card">
               <h2 className="checkout-card-title">
                 <FiMapPin className="checkout-card-title-icon" /> Shipping Address
@@ -212,7 +209,6 @@ const Checkout = () => {
               </form>
             </div>
 
-            {/* Payment Method */}
             <div className="checkout-card">
               <h2 className="checkout-card-title">
                 <FiCreditCard className="checkout-card-title-icon" /> Payment Method
@@ -252,12 +248,10 @@ const Checkout = () => {
 
           </div>
 
-          {/* Right Column: Order Summary */}
           <div className="checkout-summary-sidebar">
             <div className="checkout-summary-card">
               <h2 className="checkout-card-title">Order Summary</h2>
               
-              {/* Delivery Estimation */}
               <div className="checkout-delivery-est">
                 <FiTruck className="checkout-delivery-icon" />
                 <div>
@@ -266,7 +260,6 @@ const Checkout = () => {
                 </div>
               </div>
 
-              {/* Items Summary */}
               <div className="checkout-items">
                 {cart.map((item, idx) => (
                   <div key={idx} className="checkout-item-row">

@@ -35,7 +35,6 @@ const Cart = () => {
         </div>
       ) : (
         <div className="cart-layout">
-          {/* Cart Items */}
           <div className="cart-items-container">
             <div className="cart-items-card">
               <ul className="cart-items-list">
@@ -96,7 +95,6 @@ const Cart = () => {
             </div>
           </div>
 
-          {/* Order Summary */}
           <div className="cart-summary-sidebar">
             <div className="cart-summary-card">
               <h2 className="cart-summary-title">Order Summary</h2>

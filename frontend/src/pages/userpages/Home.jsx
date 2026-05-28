@@ -33,7 +33,6 @@ const Home = () => {
       <Hero />
       <Services />
 
-      {/* Featured Products */}
       <section className="home-section">
         <div className="home-section-header">
           <h2 className="home-section-title">Featured Products</h2>

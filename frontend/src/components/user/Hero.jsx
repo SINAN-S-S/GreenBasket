@@ -9,7 +9,6 @@ import './Hero.css';
 const Hero = () => {
   return (
     <section className="hero-section">
-      {/* Background Floating Leaves */}
       <div className="hero-leaves">
         <FaLeaf className="leaf leaf-1" />
         <FaLeaf className="leaf leaf-2" />
@@ -21,7 +20,6 @@ const Hero = () => {
 
       <div className="hero-container">
 
-        {/* Main Banner Content */}
         <div className="hero-content">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -63,7 +61,6 @@ const Hero = () => {
               className="hero-main-img"
             />
 
-            {/* Floating Card 1: 100% Natural */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
@@ -78,7 +75,6 @@ const Hero = () => {
               </div>
             </motion.div>
 
-            {/* Floating Card 2: Same Day Delivery */}
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
@@ -93,7 +89,6 @@ const Hero = () => {
               </div>
             </motion.div>
 
-            {/* Floating Card 3: Reviews */}
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 0.5 }}

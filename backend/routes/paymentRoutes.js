@@ -6,13 +6,11 @@ const {
 
 const router = express.Router();
 
-// CREATE REAL RAZORPAY ORDER
 router.post(
   "/create-order",
   createRazorpayOrder
 );
 
-// VERIFY PAYMENT
 router.post(
   "/verify-payment",
   verifyPayment

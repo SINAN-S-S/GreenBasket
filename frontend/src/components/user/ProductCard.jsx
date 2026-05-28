@@ -12,7 +12,6 @@ const ProductCard = ({ product }) => {
   const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
 
 
-  // Note: For simplicity, if it's a Fruit Juice or clearly not kg, we hide the selector.
   const showWeightSelector = product.type !== 'Fruit Juices' && (product.unit === '1kg' || product.unit === '500g' || product.unit === '250g');
 
   const weights = [
@@ -21,7 +20,6 @@ const ProductCard = ({ product }) => {
     { label: '250g', multiplier: 0.25 }
   ];
   
-  // Default selected weight logic
   const [selectedWeight, setSelectedWeight] = useState(showWeightSelector ? weights[0] : { label: product.unit, multiplier: 1 });
 
   const currentSelection = showWeightSelector ? selectedWeight : { label: product.unit, multiplier: 1 };
@@ -49,14 +47,12 @@ const ProductCard = ({ product }) => {
       whileHover={{ y: -5 }}
       className="product-card group"
     >
-      {/* Discount Badge */}
       {product.discount > 0 && (
         <div className="product-discount-badge">
           {product.discount}% OFF
         </div>
       )}
 
-      {/* Wishlist Button */}
       <button
         onClick={() => toggleWishlist(product)}
         className={`product-wishlist-btn ${isInWishlist(product._id)
@@ -67,7 +63,6 @@ const ProductCard = ({ product }) => {
         <FiHeart size={16} className={isInWishlist(product._id) ? 'product-wishlist-icon-fill' : ''} />
       </button>
 
-      {/* Image */}
       <Link to={`/product/${product._id}`} className="product-image-container">
         <img
           src={product.image}
@@ -125,7 +120,6 @@ const ProductCard = ({ product }) => {
           </div>
         )}
 
-        {/* Price & Add to Cart */}
         <div className="product-footer">
           <div>
             <span className="product-price-current">₹{displayPrice}</span>
