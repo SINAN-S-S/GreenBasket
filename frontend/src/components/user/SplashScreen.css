@@ -1,0 +1,89 @@
+.splash-container {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  overflow: hidden;
+}
+
+.splash-door {
+  width: 50%;
+  height: 100%;
+  background-color: var(--color-brand-green);
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+}
+
+.splash-door-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.splash-door-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.splash-handle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.5rem; /* 2 */
+  height: 4rem; /* 16 */
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+}
+.splash-handle-left { right: 1rem; }
+.splash-handle-right { left: 1rem; }
+
+.splash-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.splash-icon-wrapper {
+  background-color: #ffffff;
+  padding: 1.5rem; /* 6 */
+  border-radius: 9999px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  margin-bottom: 1.5rem; /* 6 */
+  position: relative;
+  overflow: hidden;
+}
+.splash-icon { color: var(--color-brand-green); }
+
+.splash-text-wrapper {
+  overflow: hidden;
+}
+
+.splash-title {
+  font-size: 2.25rem; /* 4xl */
+  font-weight: 900; /* black */
+  color: #ffffff;
+  letter-spacing: -0.025em; /* tracking-tight */
+  filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06)); /* drop-shadow-md */
+  margin-bottom: 0.5rem;
+}
+@media (min-width: 768px) {
+  .splash-title { font-size: 3.75rem; /* 6xl */ }
+}
+.splash-title-accent { color: var(--color-brand-orange); }
+
+.splash-subtitle {
+  color: #f0fdf4; /* green-50 */
+  font-size: 1.125rem; /* lg */
+  font-weight: 500;
+  letter-spacing: 0.025em; /* tracking-wide */
+}
+@media (min-width: 768px) {
+  .splash-subtitle { font-size: 1.25rem; /* xl */ }
+}
