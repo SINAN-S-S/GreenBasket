@@ -30,7 +30,7 @@ const Products = () => {
       while (retries > 0) {
         setLoading(true);
         try {
-          let url = 'http://127.0.0.1:5000/api/products?';
+          let url = 'http://localhost:5000/api/products?';
 
           if (category && category !== 'All') {
             url += `category=${encodeURIComponent(category)}&`;

@@ -28,7 +28,7 @@ const ProductDetail = () => {
       while (retries > 0) {
         setLoading(true);
         try {
-          const { data } = await axios.get(`http://127.0.0.1:5000/api/products/${id}`);
+          const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
           setProduct(data);
           break; // Success, exit loop
         } catch (error) {

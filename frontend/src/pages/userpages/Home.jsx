@@ -19,7 +19,7 @@ const Home = () => {
       while (retries > 0) {
         setLoading(true);
         try {
-          const { data } = await axios.get('http://127.0.0.1:5000/api/products');
+          const { data } = await axios.get('http://localhost:5000/api/products');
           setProducts(data.slice(0, 8));
           break; // Success, exit loop
         } catch (error) {
