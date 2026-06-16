@@ -14,7 +14,7 @@ const AdminUserRestore = () => {
   const fetchDeletedUsers = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-      const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/users/deleted/all', config);
+      const { data } = await axios.get('https://green-basket-theta.vercel.app/api/users/deleted/all', config);
       setUsers(data);
     } catch (error) {
       console.error('Error fetching deleted users:', error);
@@ -41,7 +41,7 @@ const AdminUserRestore = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-        await axios.put(`https://green-basket-theta.vercel.app0/api/users/${id}/restore`, {}, config);
+        await axios.put(`https://green-basket-theta.vercel.app/api/users/${id}/restore`, {}, config);
         Swal.fire({
           title: 'Restored!',
           text: 'The user has been restored.',
@@ -70,7 +70,7 @@ const AdminUserRestore = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-        await axios.delete(`https://green-basket-theta.vercel.app0/api/users/${id}/hard`, config);
+        await axios.delete(`https://green-basket-theta.vercel.app/api/users/${id}/hard`, config);
         Swal.fire({
           title: 'Deleted!',
           text: 'The user has been permanently deleted.',
@@ -99,7 +99,7 @@ const AdminUserRestore = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-        await axios.delete('https://green-basket-theta.vercel.app0/api/users/deleted/all/empty', config);
+        await axios.delete('https://green-basket-theta.vercel.app/api/users/deleted/all/empty', config);
         Swal.fire('Emptied!', 'All trashed users have been permanently deleted.', 'success');
         fetchDeletedUsers();
       } catch (error) {

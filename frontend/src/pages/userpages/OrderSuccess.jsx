@@ -15,7 +15,7 @@ const OrderSuccess = () => {
     const fetchOrder = async () => {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        const { data } = await axios.get(`https://green-basket-theta.vercel.app0/api/orders/${id}`, config);
+        const { data } = await axios.get(`https://green-basket-theta.vercel.app/api/orders/${id}`, config);
         setOrder(data);
       } catch (error) {
         console.error("Error fetching order:", error);

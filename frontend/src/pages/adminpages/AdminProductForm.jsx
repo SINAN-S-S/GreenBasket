@@ -26,7 +26,7 @@ const AdminProductForm = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const { data } = await axios.get(`https://green-basket-theta.vercel.app0/api/products/${id}`);
+        const { data } = await axios.get(`https://green-basket-theta.vercel.app/api/products/${id}`);
         setName(data.name);
         
         if (data.name === 'Sample name') {
@@ -67,8 +67,8 @@ const AdminProductForm = () => {
         },
       };
 
-      const { data } = await axios.post('https://green-basket-theta.vercel.app0/api/upload', formData, config);
-      setImage(`https://green-basket-theta.vercel.app0${data}`);
+      const { data } = await axios.post('https://green-basket-theta.vercel.app/api/upload', formData, config);
+      setImage(`https://green-basket-theta.vercel.app${data}`);
       setUploading(false);
       Swal.fire({
         toast: true,
@@ -96,7 +96,7 @@ const AdminProductForm = () => {
       };
 
       await axios.put(
-        `https://green-basket-theta.vercel.app0/api/products/${id}`,
+        `https://green-basket-theta.vercel.app/api/products/${id}`,
         { name, price, image, type, description, discount, unit, countInStock },
         config
       );

@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
       const fetchCart = async () => {
         try {
           const config = { headers: { Authorization: `Bearer ${user.token}` } };
-          const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/users/profile', config);
+          const { data } = await axios.get('https://green-basket-theta.vercel.app/api/users/profile', config);
           if (data.cart && data.cart.length > 0) {
             const mappedCart = data.cart.map(item => ({
               ...item.product,
@@ -42,7 +42,7 @@ export const CartProvider = ({ children }) => {
         try {
           const config = { headers: { Authorization: `Bearer ${user.token}` } };
           const dbCart = cart.map(item => ({ product: item._id, qty: item.qty, unit: item.unit }));
-          await axios.put('https://green-basket-theta.vercel.app0/api/users/cart', { cart: dbCart }, config);
+          await axios.put('https://green-basket-theta.vercel.app/api/users/cart', { cart: dbCart }, config);
         } catch (error) {
           console.error("Error syncing cart to DB", error);
         }

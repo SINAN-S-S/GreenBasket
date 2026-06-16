@@ -50,7 +50,7 @@ const Checkout = () => {
         unit: item.unit || '1kg'
       }));
 
-      const { data } = await axios.post('https://green-basket-theta.vercel.app0/api/orders', {
+      const { data } = await axios.post('https://green-basket-theta.vercel.app/api/orders', {
         orderItems,
         shippingAddress: { address, city, postalCode },
         paymentMethod,
@@ -87,7 +87,7 @@ const Checkout = () => {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
         
-        const { data: orderData } = await axios.post('https://green-basket-theta.vercel.app0/api/payment/create-order', {
+        const { data: orderData } = await axios.post('https://green-basket-theta.vercel.app/api/payment/create-order', {
           amount: cartTotal
         }, config);
 
@@ -106,7 +106,7 @@ const Checkout = () => {
           order_id: orderData.order.id,
           handler: async function (response) {
             try {
-              const verifyData = await axios.post('https://green-basket-theta.vercel.app0/api/payment/verify-payment', {
+              const verifyData = await axios.post('https://green-basket-theta.vercel.app/api/payment/verify-payment', {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,

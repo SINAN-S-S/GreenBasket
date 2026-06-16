@@ -14,7 +14,7 @@ const AdminProductRestore = () => {
   const fetchDeletedProducts = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/products/deleted/all', config);
+      const { data } = await axios.get('https://green-basket-theta.vercel.app/api/products/deleted/all', config);
       setProducts(data);
     } catch (error) {
       console.error('Error fetching deleted products:', error);
@@ -30,7 +30,7 @@ const AdminProductRestore = () => {
   const restoreHandler = async (id) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`https://green-basket-theta.vercel.app0/api/products/${id}/restore`, {}, config);
+      await axios.put(`https://green-basket-theta.vercel.app/api/products/${id}/restore`, {}, config);
       Swal.fire({
         toast: true,
         position: 'bottom-end',
@@ -59,7 +59,7 @@ const AdminProductRestore = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`https://green-basket-theta.vercel.app0/api/products/${id}/hard`, config);
+        await axios.delete(`https://green-basket-theta.vercel.app/api/products/${id}/hard`, config);
         Swal.fire('Deleted!', 'Product has been permanently deleted.', 'success');
         fetchDeletedProducts();
       } catch (error) {
@@ -82,7 +82,7 @@ const AdminProductRestore = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete('https://green-basket-theta.vercel.app0/api/products/deleted/all/empty', config);
+        await axios.delete('https://green-basket-theta.vercel.app/api/products/deleted/all/empty', config);
         Swal.fire('Emptied!', 'All trashed products have been permanently deleted.', 'success');
         fetchDeletedProducts();
       } catch (error) {

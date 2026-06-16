@@ -19,11 +19,11 @@ const AdminDashboard = () => {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
         
-        const { data: users } = await axios.get('https://green-basket-theta.vercel.app0/api/users', config);
+        const { data: users } = await axios.get('https://green-basket-theta.vercel.app/api/users', config);
         
-        const { data: products } = await axios.get('https://green-basket-theta.vercel.app0/api/products');
+        const { data: products } = await axios.get('https://green-basket-theta.vercel.app/api/products');
         
-        const { data: orders } = await axios.get('https://green-basket-theta.vercel.app0/api/orders', config);
+        const { data: orders } = await axios.get('https://green-basket-theta.vercel.app/api/orders', config);
 
         const totalSales = orders.reduce((acc, order) => acc + order.totalPrice, 0);
 

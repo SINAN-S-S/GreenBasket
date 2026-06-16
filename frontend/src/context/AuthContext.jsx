@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post('https://green-basket-theta.vercel.app0/api/auth/login', {
+      const { data } = await axios.post('https://green-basket-theta.vercel.app/api/auth/login', {
         email,
         password,
       });
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      const { data } = await axios.post('https://green-basket-theta.vercel.app0/api/auth/register', {
+      const { data } = await axios.post('https://green-basket-theta.vercel.app/api/auth/register', {
         name,
         email,
         password,
