@@ -26,37 +26,46 @@ const Products = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        let url = 'http://localhost:5000/api/products?';
+      let retries = 3;
+      while (retries > 0) {
+        setLoading(true);
+        try {
+          let url = 'http://127.0.0.1:5000/api/products?';
 
-        if (category && category !== 'All') {
-          url += `category=${encodeURIComponent(category)}&`;
+          if (category && category !== 'All') {
+            url += `category=${encodeURIComponent(category)}&`;
+          }
+
+          if (searchParam) {
+            url += `keyword=${encodeURIComponent(searchParam)}&`;
+          }
+
+          if (sort) {
+            url += `sort=${sort}&`;
+          }
+
+          if (minPrice) {
+            url += `minPrice=${minPrice}&`;
+          }
+
+          if (maxPrice) {
+            url += `maxPrice=${maxPrice}&`;
+          }
+
+          const { data } = await axios.get(url);
+          setProducts(data);
+          break; // Success, exit loop
+        } catch (error) {
+          console.error(`Error fetching products (retries left: ${retries - 1}):`, error);
+          retries -= 1;
+          if (retries === 0) {
+            setLoading(false);
+          } else {
+            await new Promise(res => setTimeout(res, 1000));
+          }
         }
-
-        if (searchParam) {
-          url += `keyword=${encodeURIComponent(searchParam)}&`;
-        }
-
-        if (sort) {
-          url += `sort=${sort}&`;
-        }
-
-        if (minPrice) {
-          url += `minPrice=${minPrice}&`;
-        }
-
-        if (maxPrice) {
-          url += `maxPrice=${maxPrice}&`;
-        }
-
-        const { data } = await axios.get(url);
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
       }
+      setLoading(false);
     };
     fetchProducts();
   }, [category, sort, searchParam, minPrice, maxPrice]);

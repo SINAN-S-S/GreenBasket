@@ -24,14 +24,24 @@ const ProductDetail = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      try {
-        const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
-        setProduct(data);
-      } catch (error) {
-        console.error("Error fetching product", error);
-      } finally {
-        setLoading(false);
+      let retries = 3;
+      while (retries > 0) {
+        setLoading(true);
+        try {
+          const { data } = await axios.get(`http://127.0.0.1:5000/api/products/${id}`);
+          setProduct(data);
+          break; // Success, exit loop
+        } catch (error) {
+          console.error(`Error fetching product (retries left: ${retries - 1}):`, error);
+          retries -= 1;
+          if (retries === 0) {
+            setLoading(false);
+          } else {
+            await new Promise(res => setTimeout(res, 1000));
+          }
+        }
       }
+      setLoading(false);
     };
     fetchProduct();
   }, [id]);
