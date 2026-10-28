@@ -18,7 +18,7 @@ export const WishlistProvider = ({ children }) => {
       const fetchWishlist = async () => {
         try {
           const config = { headers: { Authorization: `Bearer ${user.token}` } };
-          const { data } = await axios.get('http://localhost:5000/api/users/profile', config);
+          const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/users/profile', config);
           
           let mergedWishlist = [];
           if (data.wishlist && data.wishlist.length > 0) {
@@ -55,7 +55,7 @@ export const WishlistProvider = ({ children }) => {
         try {
           const config = { headers: { Authorization: `Bearer ${user.token}` } };
           const dbWishlist = wishlist.map(item => item._id || item);
-          await axios.put('http://localhost:5000/api/users/wishlist', { wishlist: dbWishlist }, config);
+          await axios.put('https://green-basket-theta.vercel.app0/api/users/wishlist', { wishlist: dbWishlist }, config);
         } catch (error) {
           console.error("Error syncing wishlist to DB", error);
         }

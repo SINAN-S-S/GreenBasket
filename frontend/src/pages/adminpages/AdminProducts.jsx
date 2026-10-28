@@ -16,8 +16,8 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     try {
       const url = category 
-        ? `http://localhost:5000/api/products?category=${encodeURIComponent(category)}`
-        : 'http://localhost:5000/api/products';
+        ? `https://green-basket-theta.vercel.app0/api/products?category=${encodeURIComponent(category)}`
+        : 'https://green-basket-theta.vercel.app0/api/products';
       const { data } = await axios.get(url);
       setProducts(data);
     } catch (error) {
@@ -45,7 +45,7 @@ const AdminProducts = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`http://localhost:5000/api/products/${id}`, config);
+        await axios.delete(`https://green-basket-theta.vercel.app0/api/products/${id}`, config);
         Swal.fire('Trashed!', 'Product has been moved to trash.', 'success');
         fetchProducts();
       } catch (error) {
@@ -57,7 +57,7 @@ const AdminProducts = () => {
   const createProductHandler = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post('http://localhost:5000/api/products', {}, config);
+      const { data } = await axios.post('https://green-basket-theta.vercel.app0/api/products', {}, config);
       navigate(`/admin/products/${data._id}/edit`);
     } catch (error) {
       Swal.fire('Error', error.response?.data?.message || 'Error creating product', 'error');

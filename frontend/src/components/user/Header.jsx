@@ -29,7 +29,7 @@ const Header = () => {
 
     if (keyword.length > 0) {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/products?keyword=${keyword}`);
+        const { data } = await axios.get(`https://green-basket-theta.vercel.app0/api/products?keyword=${keyword}`);
         setSuggestions(data);
         setShowSuggestions(true);
       } catch (error) {

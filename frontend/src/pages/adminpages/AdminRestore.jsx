@@ -14,7 +14,7 @@ const AdminRestore = () => {
   const fetchDeletedProducts = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/products/deleted/all', config);
+      const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/products/deleted/all', config);
       setProducts(data);
     } catch (error) {
       console.error('Error fetching deleted products:', error);
@@ -41,7 +41,7 @@ const AdminRestore = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.put(`http://localhost:5000/api/products/${id}/restore`, {}, config);
+        await axios.put(`https://green-basket-theta.vercel.app0/api/products/${id}/restore`, {}, config);
         Swal.fire({
           title: 'Restored!',
           text: 'The product has been restored.',
@@ -70,7 +70,7 @@ const AdminRestore = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`http://localhost:5000/api/products/${id}/hard`, config);
+        await axios.delete(`https://green-basket-theta.vercel.app0/api/products/${id}/hard`, config);
         Swal.fire({
           title: 'Deleted!',
           text: 'The product has been permanently deleted.',

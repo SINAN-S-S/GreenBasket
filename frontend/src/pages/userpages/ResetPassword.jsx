@@ -31,7 +31,7 @@ const ResetPassword = () => {
     setIsLoading(true);
 
     try {
-      await axios.put(`http://localhost:5000/api/auth/resetpassword/${resettoken}`, { password });
+      await axios.put(`https://green-basket-theta.vercel.app0/api/auth/resetpassword/${resettoken}`, { password });
       
       await Swal.fire({
         icon: 'success',

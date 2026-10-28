@@ -13,7 +13,7 @@ const AdminOrders = () => {
   const fetchOrders = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/orders', config);
+      const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/orders', config);
       setOrders(data);
     } catch (error) {
       console.error('Error fetching orders:', error);
@@ -40,7 +40,7 @@ const AdminOrders = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.put(`http://localhost:5000/api/orders/${id}/deliver`, {}, config);
+        await axios.put(`https://green-basket-theta.vercel.app0/api/orders/${id}/deliver`, {}, config);
         Swal.fire({
           toast: true,
           position: 'bottom-end',
@@ -70,7 +70,7 @@ const AdminOrders = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`http://localhost:5000/api/orders/${id}`, config);
+        await axios.delete(`https://green-basket-theta.vercel.app0/api/orders/${id}`, config);
         Swal.fire({
           toast: true,
           position: 'bottom-end',

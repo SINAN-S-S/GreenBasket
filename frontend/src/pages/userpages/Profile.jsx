@@ -26,7 +26,7 @@ const Profile = () => {
       const fetchMyOrders = async () => {
         try {
           const config = { headers: { Authorization: `Bearer ${user.token}` } };
-          const { data } = await axios.get('http://localhost:5000/api/orders/myorders', config);
+          const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/orders/myorders', config);
           setOrders(data);
         } catch (error) {
           console.error("Failed to fetch orders", error);
@@ -53,7 +53,7 @@ const Profile = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.put(`http://localhost:5000/api/orders/${id}/cancel`, {}, config);
+        await axios.put(`https://green-basket-theta.vercel.app0/api/orders/${id}/cancel`, {}, config);
         
         Swal.fire({
           title: 'Cancelled!',
@@ -63,7 +63,7 @@ const Profile = () => {
           showConfirmButton: false
         });
 
-        const { data } = await axios.get('http://localhost:5000/api/orders/myorders', config);
+        const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/orders/myorders', config);
         setOrders(data);
       } catch (error) {
         console.error("Failed to cancel order", error);
@@ -90,7 +90,7 @@ const Profile = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`http://localhost:5000/api/orders/${id}`, config);
+        await axios.delete(`https://green-basket-theta.vercel.app0/api/orders/${id}`, config);
         
         Swal.fire({
           toast: true,
@@ -101,7 +101,7 @@ const Profile = () => {
           timer: 1500
         });
 
-        const { data } = await axios.get('http://localhost:5000/api/orders/myorders', config);
+        const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/orders/myorders', config);
         setOrders(data);
       } catch (error) {
         console.error("Failed to delete order", error);
@@ -133,7 +133,7 @@ const Profile = () => {
       };
 
       const { data } = await axios.put(
-        'http://localhost:5000/api/users/profile',
+        'https://green-basket-theta.vercel.app0/api/users/profile',
         { name, email, password },
         config
       );

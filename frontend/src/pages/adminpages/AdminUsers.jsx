@@ -14,7 +14,7 @@ const AdminUsers = () => {
   const fetchUsers = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/users', config);
+      const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/users', config);
       setUsers(data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -47,7 +47,7 @@ const AdminUsers = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-        await axios.put(`http://localhost:5000/api/users/${id}/block`, {}, config);
+        await axios.put(`https://green-basket-theta.vercel.app0/api/users/${id}/block`, {}, config);
         Swal.fire({
           title: 'Success!',
           text: `User has been ${actionText.toLowerCase()}ed.`,
@@ -81,7 +81,7 @@ const AdminUsers = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-        await axios.delete(`http://localhost:5000/api/users/${id}`, config);
+        await axios.delete(`https://green-basket-theta.vercel.app0/api/users/${id}`, config);
         Swal.fire({
           title: 'Deleted!',
           text: 'The user has been moved to the trash.',

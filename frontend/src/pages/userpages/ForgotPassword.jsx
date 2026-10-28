@@ -14,7 +14,7 @@ const ForgotPassword = () => {
     setIsLoading(true);
 
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/forgotpassword', { email });
+      const { data } = await axios.post('https://green-basket-theta.vercel.app0/api/auth/forgotpassword', { email });
       
       Swal.fire({
         icon: 'success',
