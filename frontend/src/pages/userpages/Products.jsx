@@ -28,7 +28,7 @@ const Products = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        let url = 'https://green-basket-theta.vercel.app0/api/products?';
+        let url = 'https://green-basket-theta.vercel.app/api/products?';
 
         if (category && category !== 'All') {
           url += `category=${encodeURIComponent(category)}&`;

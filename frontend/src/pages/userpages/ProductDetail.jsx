@@ -25,7 +25,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const { data } = await axios.get(`https://green-basket-theta.vercel.app0/api/products/${id}`);
+        const { data } = await axios.get(`https://green-basket-theta.vercel.app/api/products/${id}`);
         setProduct(data);
       } catch (error) {
         console.error("Error fetching product", error);

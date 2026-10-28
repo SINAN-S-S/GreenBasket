@@ -17,7 +17,7 @@ const Home = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get('https://green-basket-theta.vercel.app0/api/products');
+        const { data } = await axios.get('https://green-basket-theta.vercel.app/api/products');
         setProducts(data.slice(0, 8));
       } catch (error) {
         console.error("Error fetching products:", error);
