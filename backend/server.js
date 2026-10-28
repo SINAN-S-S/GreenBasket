@@ -11,6 +11,9 @@ const path = require('path');
 
 const app = express();
 
+// const allowedOrigins = ['http://localhost:3000', 'https://greenbasket.vercel.app'];
+
+// Load environment variables and connect to database
 require('dotenv').config();
 connectDB();
 
