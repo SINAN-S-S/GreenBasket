@@ -28,45 +28,38 @@ const Products = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        let url = 'https://green-basket-theta.vercel.app/api/products?';
+        let url = 'https://green-basket-theta.vercel.app0/api/products?';
 
-          if (category && category !== 'All') {
-            url += `category=${encodeURIComponent(category)}&`;
-          }
-
-          if (searchParam) {
-            url += `keyword=${encodeURIComponent(searchParam)}&`;
-          }
-
-          if (sort) {
-            url += `sort=${sort}&`;
-          }
-
-          if (minPrice) {
-            url += `minPrice=${minPrice}&`;
-          }
-
-          if (maxPrice) {
-            url += `maxPrice=${maxPrice}&`;
-          }
-
-          const { data } = await axios.get(url);
-          setProducts(data);
-          return; // Success, exit loop
-        } catch (error) {
-          console.error(`Error fetching products (retries left: ${retries - 1}):`, error);
-          retries -= 1;
-          if (retries === 0) {
-            setLoading(false);
-          } else {
-            await new Promise(res => setTimeout(res, 1000));
-          }
+        if (category && category !== 'All') {
+          url += `category=${encodeURIComponent(category)}&`;
         }
+
+        if (searchParam) {
+          url += `keyword=${encodeURIComponent(searchParam)}&`;
+        }
+
+        if (sort) {
+          url += `sort=${sort}&`;
+        }
+
+        if (minPrice) {
+          url += `minPrice=${minPrice}&`;
+        }
+
+        if (maxPrice) {
+          url += `maxPrice=${maxPrice}&`;
+        }
+
+        const { data } = await axios.get(url);
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    },
-    fetchProducts(),
-   [category, sort, searchParam, minPrice, maxPrice]);
+    };
+    fetchProducts();
+  }, [category, sort, searchParam, minPrice, maxPrice]);
 
   const categories = ['All', 'Fresh Fruits', 'Vegetables', 'Organic Products', 'Fruit Juices', 'Meat'];
 
