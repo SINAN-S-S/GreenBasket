@@ -54,36 +54,48 @@ const AdminProductForm = () => {
     fetchProduct();
   }, [id]);
 
-  const uploadFileHandler = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append('image', file);
-    setUploading(true);
+  
+const uploadFileHandler = async (e) => {
+  const file = e.target.files[0];
 
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      };
+  if (!file) return;
 
-      const { data } = await axios.post('https://green-basket-theta.vercel.app/api/upload', formData, config);
-      setImage(`https://green-basket-theta.vercel.app${data}`);
-      setUploading(false);
-      Swal.fire({
-        toast: true,
-        position: 'bottom-end',
-        icon: 'success',
-        title: 'Image Uploaded',
-        showConfirmButton: false,
-        timer: 1500
-      });
-    } catch (error) {
-      console.error(error);
-      setUploading(false);
-      Swal.fire('Error', 'Image upload failed', 'error');
-    }
-  };
+  const formData = new FormData();
+  formData.append("image", file);
+
+  setUploading(true);
+
+  try {
+    const { data } = await axios.post(
+      "https://green-basket-theta.vercel.app/api/upload",
+      formData
+    );
+
+    // Backend returns Cloudinary secure URL directly
+    setImage(data);
+
+    Swal.fire({
+      toast: true,
+      position: "bottom-end",
+      icon: "success",
+      title: "Image Uploaded",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  } catch (error) {
+    console.error("Image Upload Error:", error);
+
+    Swal.fire(
+      "Error",
+      error.response?.data || "Image upload failed",
+      "error"
+    );
+  } finally {
+    setUploading(false);
+    e.target.value = "";
+  }
+};
+
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -254,8 +266,10 @@ const AdminProductForm = () => {
               <button
                 type="submit"
                 className="admin-form-submit"
+                disabled={uploading}
               >
-                <FiSave /> Save Changes
+                <FiSave /> 
+                {uploading ? "Uploading Image..." : "Save Changes"}
               </button>
             </form>
           </div>
