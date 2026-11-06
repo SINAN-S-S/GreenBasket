@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import Swal from 'sweetalert2';
 import { AuthContext } from './AuthContext';
 
@@ -18,7 +18,7 @@ export const WishlistProvider = ({ children }) => {
       const fetchWishlist = async () => {
         try {
           const config = { headers: { Authorization: `Bearer ${user.token}` } };
-          const { data } = await axios.get('https://green-basket-theta.vercel.app/api/users/profile', config);
+          const { data } = await api.get('/api/users/profile', config);
           
           let mergedWishlist = [];
           if (data.wishlist && data.wishlist.length > 0) {
@@ -55,7 +55,7 @@ export const WishlistProvider = ({ children }) => {
         try {
           const config = { headers: { Authorization: `Bearer ${user.token}` } };
           const dbWishlist = wishlist.map(item => item._id || item);
-          await axios.put('https://green-basket-theta.vercel.app/api/users/wishlist', { wishlist: dbWishlist }, config);
+          await api.put('/api/users/wishlist', { wishlist: dbWishlist }, config);
         } catch (error) {
           console.error("Error syncing wishlist to DB", error);
         }

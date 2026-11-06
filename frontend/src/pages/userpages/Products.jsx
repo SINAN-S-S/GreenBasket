@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ProductCard from "../../components/user/ProductCard";
 import { FiFilter } from 'react-icons/fi';
-import axios from 'axios';
+import api from '../../api';
 import "../userCss/Products.css";
 
 const Products = () => {
@@ -28,29 +28,25 @@ const Products = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        let url = 'https://green-basket-theta.vercel.app/api/products?';
+        const params = new URLSearchParams();
 
         if (category && category !== 'All') {
-          url += `category=${encodeURIComponent(category)}&`;
+          params.append('category', category);
         }
-
         if (searchParam) {
-          url += `keyword=${encodeURIComponent(searchParam)}&`;
+          params.append('keyword', searchParam);
         }
-
         if (sort) {
-          url += `sort=${sort}&`;
+          params.append('sort', sort);
         }
-
         if (minPrice) {
-          url += `minPrice=${minPrice}&`;
+          params.append('minPrice', minPrice);
         }
-
         if (maxPrice) {
-          url += `maxPrice=${maxPrice}&`;
+          params.append('maxPrice', maxPrice);
         }
 
-        const { data } = await axios.get(url);
+        const { data } = await api.get(`/api/products?${params.toString()}`);
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);

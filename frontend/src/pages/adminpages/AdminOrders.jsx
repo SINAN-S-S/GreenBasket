@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../../api';
 import { AuthContext } from '../../context/AuthContext';
 import Swal from 'sweetalert2';
 import { FiCheckCircle, FiXCircle, FiTruck, FiTrash2 } from 'react-icons/fi';
@@ -13,7 +13,7 @@ const AdminOrders = () => {
   const fetchOrders = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('https://green-basket-theta.vercel.app/api/orders', config);
+      const { data } = await api.get('/api/orders', config);
       setOrders(data);
     } catch (error) {
       console.error('Error fetching orders:', error);
@@ -40,7 +40,7 @@ const AdminOrders = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.put(`https://green-basket-theta.vercel.app/api/orders/${id}/deliver`, {}, config);
+        await api.put(`/api/orders/${id}/deliver`, {}, config);
         Swal.fire({
           toast: true,
           position: 'bottom-end',
@@ -70,7 +70,7 @@ const AdminOrders = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`https://green-basket-theta.vercel.app/api/orders/${id}`, config);
+        await api.delete(`/api/orders/${id}`, config);
         Swal.fire({
           toast: true,
           position: 'bottom-end',

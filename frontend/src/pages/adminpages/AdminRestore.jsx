@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../../api';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import { FiRefreshCcw, FiTrash2, FiArrowLeft } from 'react-icons/fi';
@@ -14,7 +14,7 @@ const AdminRestore = () => {
   const fetchDeletedProducts = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('https://green-basket-theta.vercel.app/api/products/deleted/all', config);
+      const { data } = await api.get('/api/products/deleted/all', config);
       setProducts(data);
     } catch (error) {
       console.error('Error fetching deleted products:', error);
@@ -41,7 +41,7 @@ const AdminRestore = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.put(`https://green-basket-theta.vercel.app/api/products/${id}/restore`, {}, config);
+        await api.put(`/api/products/${id}/restore`, {}, config);
         Swal.fire({
           title: 'Restored!',
           text: 'The product has been restored.',
@@ -70,7 +70,7 @@ const AdminRestore = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`https://green-basket-theta.vercel.app/api/products/${id}/hard`, config);
+        await api.delete(`/api/products/${id}/hard`, config);
         Swal.fire({
           title: 'Deleted!',
           text: 'The product has been permanently deleted.',

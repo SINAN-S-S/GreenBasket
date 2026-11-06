@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../../api';
 import { FiBox, FiUsers, FiDollarSign, FiShoppingBag } from 'react-icons/fi';
 import { AuthContext } from '../../context/AuthContext';
 import '../adminCss/AdminDashboard.css';
@@ -19,11 +19,11 @@ const AdminDashboard = () => {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
         
-        const { data: users } = await axios.get('https://green-basket-theta.vercel.app/api/users', config);
+        const { data: users } = await api.get('/api/users', config);
         
-        const { data: products } = await axios.get('https://green-basket-theta.vercel.app/api/products');
+        const { data: products } = await api.get('/api/products');
         
-        const { data: orders } = await axios.get('https://green-basket-theta.vercel.app/api/orders', config);
+        const { data: orders } = await api.get('/api/orders', config);
 
         const totalSales = orders.reduce((acc, order) => acc + order.totalPrice, 0);
 

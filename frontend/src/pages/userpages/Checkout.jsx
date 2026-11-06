@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext';
 import { AuthContext } from '../../context/AuthContext';
 import { FiMapPin, FiCreditCard, FiTruck, FiArrowRight } from 'react-icons/fi';
-import axios from 'axios';
+import api from '../../api';
 import Swal from 'sweetalert2';
 import "../userCss/Checkout.css";
 
@@ -50,7 +50,7 @@ const Checkout = () => {
         unit: item.unit || '1kg'
       }));
 
-      const { data } = await axios.post('https://green-basket-theta.vercel.app/api/orders', {
+      const { data } = await api.post('/api/orders', {
         orderItems,
         shippingAddress: { address, city, postalCode },
         paymentMethod,
@@ -87,7 +87,7 @@ const Checkout = () => {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
         
-        const { data: orderData } = await axios.post('https://green-basket-theta.vercel.app/api/payment/create-order', {
+        const { data: orderData } = await api.post('/api/payment/create-order', {
           amount: cartTotal
         }, config);
 
@@ -98,7 +98,7 @@ const Checkout = () => {
         }
 
         const options = {
-          key: 'rzp_test_StsYL3bwhCfGUM',
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_StsYL3bwhCfGUM',
           amount: orderData.order.amount,
           currency: 'INR',
           name: 'GreenBasket',
@@ -106,7 +106,7 @@ const Checkout = () => {
           order_id: orderData.order.id,
           handler: async function (response) {
             try {
-              const verifyData = await axios.post('https://green-basket-theta.vercel.app/api/payment/verify-payment', {
+              const verifyData = await api.post('/api/payment/verify-payment', {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../../api';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import { FiTrash2, FiTrash, FiShield, FiUserCheck, FiUserX } from 'react-icons/fi';
@@ -14,7 +14,7 @@ const AdminUsers = () => {
   const fetchUsers = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-      const { data } = await axios.get('https://green-basket-theta.vercel.app/api/users', config);
+      const { data } = await api.get('/api/users', config);
       setUsers(data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -47,7 +47,7 @@ const AdminUsers = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-        await axios.put(`https://green-basket-theta.vercel.app/api/users/${id}/block`, {}, config);
+        await api.put(`/api/users/${id}/block`, {}, config);
         Swal.fire({
           title: 'Success!',
           text: `User has been ${actionText.toLowerCase()}ed.`,
@@ -81,7 +81,7 @@ const AdminUsers = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-        await axios.delete(`https://green-basket-theta.vercel.app/api/users/${id}`, config);
+        await api.delete(`/api/users/${id}`, config);
         Swal.fire({
           title: 'Deleted!',
           text: 'The user has been moved to the trash.',

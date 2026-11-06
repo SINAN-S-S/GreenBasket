@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api';
 import { FiArrowLeft, FiShoppingBag, FiHeart, FiPlus, FiMinus, FiTruck, FiShield } from 'react-icons/fi';
 import { CartContext } from '../../context/CartContext';
 import { WishlistContext } from '../../context/WishlistContext';
@@ -25,14 +25,13 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const { data } = await axios.get(`https://green-basket-theta.vercel.app/api/products/${id}`);
+        const { data } = await api.get(`/api/products/${id}`);
         setProduct(data);
       } catch (error) {
         console.error("Error fetching product", error);
       } finally {
         setLoading(false);
       }
-      setLoading(false);
     };
     fetchProduct();
   }, [id]);

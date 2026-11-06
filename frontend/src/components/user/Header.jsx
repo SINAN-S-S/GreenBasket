@@ -5,7 +5,7 @@ import { CartContext } from '../../context/CartContext';
 import { AuthContext } from '../../context/AuthContext';
 import { WishlistContext } from '../../context/WishlistContext';
 import './Header.css';
-import axios from 'axios';
+import api from '../../api';
 
 const Header = () => {
   const { cartItemCount } = useContext(CartContext);
@@ -29,7 +29,7 @@ const Header = () => {
 
     if (keyword.length > 0) {
       try {
-        const { data } = await axios.get(`https://green-basket-theta.vercel.app/api/products?keyword=${keyword}`);
+        const { data } = await api.get(`/api/products?keyword=${keyword}`);
         setSuggestions(data);
         setShowSuggestions(true);
       } catch (error) {

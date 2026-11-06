@@ -1,0 +1,282 @@
+[
+  {
+    "_id": "6a14088bf07060de77f4f23d",
+    "name": "Organic Walnuts",
+    "image": "http://localhost:5000/uploads/image-1779771168465.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f22a",
+    "name": "Watermelon",
+    "image": "http://localhost:5000/uploads/image-1779769759154.jpg"
+  },
+  {
+    "_id": "6a1c16472a7d8d9d8f18ab23",
+    "name": "Strawberry",
+    "image": "http://localhost:5000/uploads/image-1780225796009.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f23a",
+    "name": "Organic Green Tea",
+    "image": "http://localhost:5000/uploads/image-1779770878166.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f241",
+    "name": "Apple Juice",
+    "image": "http://localhost:5000/uploads/image-1779771614555.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f246",
+    "name": "Grape Juice",
+    "image": "http://localhost:5000/uploads/image-1779772206332.jpg"
+  },
+  {
+    "_id": "6a11bddc40c877276aa7302e",
+    "name": "Grapes",
+    "image": "http://localhost:5000/uploads/image-1779768454976.jpg"
+  },
+  {
+    "_id": "6a11bddc40c877276aa73030",
+    "name": "Carrot",
+    "image": "http://localhost:5000/uploads/image-1779768971050.jpg"
+  },
+  {
+    "_id": "6a11bddc40c877276aa73032",
+    "name": "Lettuce",
+    "image": "http://localhost:5000/uploads/image-1779769157224.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f236",
+    "name": "Organic Honey",
+    "image": "http://localhost:5000/uploads/image-1779770601617.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f245",
+    "name": "Mixed Fruit Juice",
+    "image": "http://localhost:5000/uploads/image-1779772108107.jpg"
+  },
+  {
+    "_id": "6a153ca3befb8873a2ba59a6",
+    "name": "Fresh Atlantic Salmon",
+    "image": "http://localhost:5000/uploads/image-1780225427600.webp"
+  },
+  {
+    "_id": "6a999036d458ee05155939d2",
+    "name": "Sample name",
+    "image": "/images/sample.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f222",
+    "name": "Red Apple",
+    "image": "http://localhost:5000/uploads/image-1779769466791.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f237",
+    "name": "Organic Oats",
+    "image": "http://localhost:5000/uploads/image-1779770736176.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f240",
+    "name": "Fresh Orange Juice",
+    "image": "http://localhost:5000/uploads/image-1779771553542.jpg"
+  },
+  {
+    "_id": "6a1c16472a7d8d9d8f18ab20",
+    "name": "Grapes",
+    "image": "http://localhost:5000/uploads/image-1780225742861.jpg"
+  },
+  {
+    "_id": "6a999339d458ee0515593bde",
+    "name": "Sample name",
+    "image": "/images/sample.jpg"
+  },
+  {
+    "_id": "6a11bddc40c877276aa73031",
+    "name": "Broccoli",
+    "image": "http://localhost:5000/uploads/image-1779769023001.jpg"
+  },
+  {
+    "_id": "6a11bddc40c877276aa73033",
+    "name": "Tomato",
+    "image": "http://localhost:5000/uploads/image-1779769279870.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f226",
+    "name": "Mango",
+    "image": "http://localhost:5000/uploads/image-1779769648395.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f22c",
+    "name": "Potato",
+    "image": "http://localhost:5000/uploads/image-1779769872067.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f247",
+    "name": "Watermelon Juice",
+    "image": "http://localhost:5000/uploads/image-1779772892729.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f233",
+    "name": "Spinach",
+    "image": "http://localhost:5000/uploads/image-1779770504364.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f234",
+    "name": "Capsicum",
+    "image": "http://localhost:5000/uploads/image-1779770552212.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f23b",
+    "name": "Organic Chia Seeds",
+    "image": "http://localhost:5000/uploads/image-1779770927476.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f23f",
+    "name": "Organic Brown Rices",
+    "image": "http://localhost:5000/uploads/image-1779771392958.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f243",
+    "name": "Pineapple Juice",
+    "image": "http://localhost:5000/uploads/image-1779771694600.jpg"
+  },
+  {
+    "_id": "6a1c16472a7d8d9d8f18ab1f",
+    "name": "Orange",
+    "image": "http://localhost:5000/uploads/image-1780225713501.jpg"
+  },
+  {
+    "_id": "6a4f3f26546391fd6d78e65d",
+    "name": "Apple",
+    "image": "http://localhost:5000/uploads/image-1783578443094.jpg"
+  },
+  {
+    "_id": "6a11bddc40c877276aa7302d",
+    "name": "Orange",
+    "image": "http://localhost:5000/uploads/image-1779768397814.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f229",
+    "name": "Papaya",
+    "image": "http://localhost:5000/uploads/image-1779769696533.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f227",
+    "name": "Pineapple",
+    "image": "http://localhost:5000/uploads/image-1779770416240.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f23e",
+    "name": "Organic Olive Oil",
+    "image": "http://localhost:5000/uploads/image-1779771207496.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f244",
+    "name": "Pomegranate Juice",
+    "image": "http://localhost:5000/uploads/image-1779771772259.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f22b",
+    "name": "Pomegranate",
+    "image": "http://localhost:5000/uploads/image-1779769816256.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f23c",
+    "name": "Organic Almonds",
+    "image": "http://localhost:5000/uploads/image-1779771043636.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f249",
+    "name": "Lemonade",
+    "image": "http://localhost:5000/uploads/image-1779773145198.jpg"
+  },
+  {
+    "_id": "6a1c16472a7d8d9d8f18ab27",
+    "name": "Kiwi",
+    "image": "http://localhost:5000/uploads/image-1780226204057.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f22e",
+    "name": "Onion",
+    "image": "http://localhost:5000/uploads/image-1779769981878.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f248",
+    "name": "Guava Juice",
+    "image": "http://localhost:5000/uploads/image-1779772947182.jpg"
+  },
+  {
+    "_id": "6a153d1b607729770d4b0d9a",
+    "name": "Premium Beef Steak",
+    "image": "http://localhost:5000/uploads/image-1780225496278.jpg"
+  },
+  {
+    "_id": "6a1c16472a7d8d9d8f18ab1e",
+    "name": "Banana",
+    "image": "http://localhost:5000/uploads/image-1780225667917.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f238",
+    "name": "Organic Quinoa",
+    "image": "http://localhost:5000/uploads/image-1779770822664.jpg"
+  },
+  {
+    "_id": "6a1c16472a7d8d9d8f18ab22",
+    "name": "Pineapple",
+    "image": "http://localhost:5000/uploads/image-1780225775669.jpg"
+  },
+  {
+    "_id": "6a11bddc40c877276aa7302c",
+    "name": "Banana",
+    "image": "http://localhost:5000/uploads/image-1779768274930.jpg"
+  },
+  {
+    "_id": "6a11bddc40c877276aa7302f",
+    "name": "Strawberry",
+    "image": "http://localhost:5000/uploads/image-1779768787537.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f230",
+    "name": "Cabbage",
+    "image": "http://localhost:5000/uploads/image-1779770095127.jpg"
+  },
+  {
+    "_id": "6a153be02bd75b35c5687188",
+    "name": "Fresh Chicken Breast",
+    "image": "http://localhost:5000/uploads/image-1780225376633.jpg"
+  },
+  {
+    "_id": "6a11bddc40c877276aa73034",
+    "name": "Cucumber",
+    "image": "http://localhost:5000/uploads/image-1779769325736.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f231",
+    "name": "Cauliflower",
+    "image": "http://localhost:5000/uploads/image-1779770175987.jpg"
+  },
+  {
+    "_id": "6a14088bf07060de77f4f242",
+    "name": "Mango Nectar",
+    "image": "http://localhost:5000/uploads/image-1779771650309.jpg"
+  },
+  {
+    "_id": "6a153be02bd75b35c5687189",
+    "name": "Premium Mutton Curry Cut",
+    "image": "http://localhost:5000/uploads/image-1780225300220.jpg"
+  },
+  {
+    "_id": "6a1c16472a7d8d9d8f18ab28",
+    "name": "Peach",
+    "image": "http://localhost:5000/uploads/image-1780226291126.jpg"
+  },
+  {
+    "_id": "6a1c16472a7d8d9d8f18ab29",
+    "name": "Plum",
+    "image": "http://localhost:5000/uploads/image-1780226351070.jpg"
+  },
+  {
+    "_id": "6aed53924fc333f617fd0dfe",
+    "name": "Sample name",
+    "image": "/images/sample.jpg"
+  }
+]

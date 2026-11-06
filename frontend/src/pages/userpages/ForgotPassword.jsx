@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiX } from 'react-icons/fi';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import api from '../../api';
 import "../userCss/ForgotPassword.css";
 
 const ForgotPassword = () => {
@@ -14,7 +14,7 @@ const ForgotPassword = () => {
     setIsLoading(true);
 
     try {
-      const { data } = await axios.post('https://green-basket-theta.vercel.app/api/auth/forgotpassword', { email });
+      const { data } = await api.post('/api/auth/forgotpassword', { email });
       
       Swal.fire({
         icon: 'success',

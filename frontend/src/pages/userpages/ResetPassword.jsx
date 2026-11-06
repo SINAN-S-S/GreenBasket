@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FiX, FiEyeOff, FiEye } from 'react-icons/fi';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import api from '../../api';
 import "../userCss/ResetPassword.css";
 
 const ResetPassword = () => {
@@ -31,7 +31,7 @@ const ResetPassword = () => {
     setIsLoading(true);
 
     try {
-      await axios.put(`https://green-basket-theta.vercel.app/api/auth/resetpassword/${resettoken}`, { password });
+      await api.put(`/api/auth/resetpassword/${resettoken}`, { password });
       
       await Swal.fire({
         icon: 'success',

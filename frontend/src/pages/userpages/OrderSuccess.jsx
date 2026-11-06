@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiCheckCircle, FiPackage, FiMapPin, FiCreditCard } from 'react-icons/fi';
-import axios from 'axios';
+import api from '../../api';
 import { AuthContext } from '../../context/AuthContext';
 import "../userCss/OrderSuccess.css";
 
@@ -15,7 +15,7 @@ const OrderSuccess = () => {
     const fetchOrder = async () => {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        const { data } = await axios.get(`https://green-basket-theta.vercel.app/api/orders/${id}`, config);
+        const { data } = await api.get(`/api/orders/${id}`, config);
         setOrder(data);
       } catch (error) {
         console.error("Error fetching order:", error);

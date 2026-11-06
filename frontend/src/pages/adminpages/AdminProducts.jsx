@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiEdit2, FiTrash2, FiPlus, FiFilter, FiArchive } from 'react-icons/fi';
 import { AuthContext } from '../../context/AuthContext';
@@ -16,9 +16,9 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     try {
       const url = category 
-        ? `https://green-basket-theta.vercel.app/api/products?category=${encodeURIComponent(category)}`
-        : 'https://green-basket-theta.vercel.app/api/products';
-      const { data } = await axios.get(url);
+        ? `/api/products?category=${encodeURIComponent(category)}`
+        : '/api/products';
+      const { data } = await api.get(url);
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -45,7 +45,7 @@ const AdminProducts = () => {
     if (result.isConfirmed) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`https://green-basket-theta.vercel.app/api/products/${id}`, config);
+        await api.delete(`/api/products/${id}`, config);
         Swal.fire('Trashed!', 'Product has been moved to trash.', 'success');
         fetchProducts();
       } catch (error) {
@@ -57,7 +57,7 @@ const AdminProducts = () => {
   const createProductHandler = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post('https://green-basket-theta.vercel.app/api/products', {}, config);
+      const { data } = await api.post('/api/products', {}, config);
       navigate(`/admin/products/${data._id}/edit`);
     } catch (error) {
       Swal.fire('Error', error.response?.data?.message || 'Error creating product', 'error');

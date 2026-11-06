@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { FiArrowLeft, FiSave, FiUploadCloud } from 'react-icons/fi';
 import { AuthContext } from '../../context/AuthContext';
 import Swal from 'sweetalert2';
+import api from '../../api';
 import '../adminCss/AdminProductForm.css';
 
 const AdminProductForm = () => {
@@ -26,9 +26,9 @@ const AdminProductForm = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const { data } = await axios.get(`https://green-basket-theta.vercel.app/api/products/${id}`);
+        const { data } = await api.get(`/api/products/${id}`);
         setName(data.name);
-        
+
         if (data.name === 'Sample name') {
           setIsNewProduct(true);
           setName('');
@@ -47,6 +47,7 @@ const AdminProductForm = () => {
         setUnit(data.unit || '1kg');
       } catch (error) {
         console.error('Error fetching product:', error);
+        Swal.fire('Error', 'Failed to load product. Please try again.', 'error');
       } finally {
         setLoading(false);
       }
@@ -54,51 +55,85 @@ const AdminProductForm = () => {
     fetchProduct();
   }, [id]);
 
-  
-const uploadFileHandler = async (e) => {
-  const file = e.target.files[0];
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
 
-  if (!file) return;
+    if (!file) return;
 
-  const formData = new FormData();
-  formData.append("image", file);
+    // Client-side validation
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+    if (!allowedTypes.includes(file.type)) {
+      Swal.fire('Invalid File', 'Only JPG, PNG, WEBP, and AVIF images are allowed.', 'error');
+      e.target.value = '';
+      return;
+    }
 
-  setUploading(true);
+    if (file.size > 5 * 1024 * 1024) {
+      Swal.fire('File Too Large', 'Image must be under 5MB.', 'error');
+      e.target.value = '';
+      return;
+    }
 
-  try {
-    const { data } = await axios.post(
-      "https://green-basket-theta.vercel.app/api/upload",
-      formData
-    );
+    const formData = new FormData();
+    formData.append('image', file);
 
-    // Backend returns Cloudinary secure URL directly
-    setImage(data);
+    setUploading(true);
 
-    Swal.fire({
-      toast: true,
-      position: "bottom-end",
-      icon: "success",
-      title: "Image Uploaded",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-  } catch (error) {
-    console.error("Image Upload Error:", error);
+    try {
+      const { data } = await api.post('/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
-    Swal.fire(
-      "Error",
-      error.response?.data || "Image upload failed",
-      "error"
-    );
-  } finally {
-    setUploading(false);
-    e.target.value = "";
-  }
-};
+      // Backend returns { url: 'https://res.cloudinary.com/...' }
+      setImage(data.url);
 
+      Swal.fire({
+        toast: true,
+        position: 'bottom-end',
+        icon: 'success',
+        title: 'Image Uploaded to Cloudinary',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error('Image Upload Error:', error);
+
+      Swal.fire(
+        'Upload Failed',
+        error.response?.data?.message || 'Image upload failed. Please try again.',
+        'error'
+      );
+    } finally {
+      setUploading(false);
+      e.target.value = '';
+    }
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    // Don't save if image is still uploading
+    if (uploading) {
+      Swal.fire('Please Wait', 'Image is still uploading...', 'info');
+      return;
+    }
+
+    // Warn if no image is set
+    if (!image) {
+      const confirm = await Swal.fire({
+        title: 'No Image',
+        text: 'No product image is set. Save anyway?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, save',
+        cancelButtonText: 'Cancel'
+      });
+      if (!confirm.isConfirmed) return;
+    }
+
     try {
       const config = {
         headers: {
@@ -107,12 +142,12 @@ const uploadFileHandler = async (e) => {
         },
       };
 
-      await axios.put(
-        `https://green-basket-theta.vercel.app/api/products/${id}`,
+      await api.put(
+        `/api/products/${id}`,
         { name, price, image, type, description, discount, unit, countInStock },
         config
       );
-      
+
       Swal.fire({
         toast: true,
         position: 'bottom-end',
@@ -140,7 +175,7 @@ const uploadFileHandler = async (e) => {
 
       <div className="admin-form-card">
         <div className="admin-form-grid">
-          
+
           <div className="admin-form-image-section">
             <div className="admin-form-image-preview">
               {image ? (
@@ -151,17 +186,33 @@ const uploadFileHandler = async (e) => {
                   <p>No image selected</p>
                 </div>
               )}
-              
+
               <label className="admin-form-image-overlay">
-                Change Image
-                <input type="file" onChange={uploadFileHandler} />
+                {uploading ? 'Uploading...' : 'Change Image'}
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/avif"
+                  onChange={uploadFileHandler}
+                  disabled={uploading}
+                />
               </label>
             </div>
-            
-            <label className="admin-form-upload-btn">
-              {uploading ? 'Uploading...' : 'Upload New Image'}
-              <input type="file" onChange={uploadFileHandler} />
+
+            <label className={`admin-form-upload-btn ${uploading ? 'disabled' : ''}`}>
+              {uploading ? 'Uploading to Cloudinary...' : 'Upload New Image'}
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/avif"
+                onChange={uploadFileHandler}
+                disabled={uploading}
+              />
             </label>
+
+            {image && image.startsWith('https://res.cloudinary.com') && (
+              <p style={{ fontSize: '0.72rem', color: '#16a34a', textAlign: 'center', marginTop: '6px' }}>
+                ✓ Cloudinary URL
+              </p>
+            )}
           </div>
 
           <div className="admin-form-inputs-section">
@@ -217,7 +268,7 @@ const uploadFileHandler = async (e) => {
                     value={image}
                     onChange={(e) => setImage(e.target.value)}
                     className="admin-form-input"
-                    required
+                    placeholder="Upload an image above, or paste a URL here"
                   />
                 </div>
 
@@ -268,8 +319,8 @@ const uploadFileHandler = async (e) => {
                 className="admin-form-submit"
                 disabled={uploading}
               >
-                <FiSave /> 
-                {uploading ? "Uploading Image..." : "Save Changes"}
+                <FiSave />
+                {uploading ? 'Uploading Image...' : 'Save Changes'}
               </button>
             </form>
           </div>

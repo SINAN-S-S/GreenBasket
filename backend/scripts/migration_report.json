@@ -1,0 +1,28 @@
+{
+  "runAt": "2026-11-06T04:25:46.796Z",
+  "stats": {
+    "total": 56,
+    "alreadyCloudinary": 0,
+    "migrated": 53,
+    "fileNotFound": 0,
+    "uploadFailed": 0,
+    "skippedNoPath": 3
+  },
+  "needsAttention": [
+    {
+      "name": "Sample name",
+      "id": "6a999036d458ee05155939d2",
+      "reason": "Unrecognized path: /images/sample.jpg"
+    },
+    {
+      "name": "Sample name",
+      "id": "6a999339d458ee0515593bde",
+      "reason": "Unrecognized path: /images/sample.jpg"
+    },
+    {
+      "name": "Sample name",
+      "id": "6aed53924fc333f617fd0dfe",
+      "reason": "Unrecognized path: /images/sample.jpg"
+    }
+  ]
+}

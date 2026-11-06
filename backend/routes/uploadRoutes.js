@@ -1,74 +1,71 @@
 
-const express = require("express");
-const multer = require("multer");
-const path = require("path");
-const { Readable } = require("stream");
-const cloudinary = require("../config/cloudinary");
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const { Readable } = require('stream');
+const cloudinary = require('../config/cloudinary');
+const { protect, admin } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// Store uploaded images temporarily in memory
-const storage = multer.memoryStorage();
-
-function checkFileType(file, cb) {
-  const allowedExtensions = /\.(jpg|jpeg|png|webp|avif)$/i;
-  const allowedMimeTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-    "image/avif",
-  ];
-
-  const extname = allowedExtensions.test(
-    path.extname(file.originalname)
-  );
-
-  const mimetype = allowedMimeTypes.includes(file.mimetype);
-
-  if (extname && mimetype) {
-    return cb(null, true);
-  }
-
-  cb(new Error("Only JPG, JPEG, PNG, WEBP and AVIF images are allowed."));
-}
-
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024,
+    fileSize: 5 * 1024 * 1024, // 5 MB max
   },
   fileFilter(req, file, cb) {
-    checkFileType(file, cb);
+    const allowedExtensions = /\.(jpg|jpeg|png|webp|avif)$/i;
+    const allowedMimeTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+      'image/avif',
+    ];
+
+    const validExtension = allowedExtensions.test(
+      path.extname(file.originalname)
+    );
+    const validMimeType = allowedMimeTypes.includes(file.mimetype);
+
+    if (validExtension && validMimeType) {
+      return cb(null, true);
+    }
+
+    cb(new Error('Only JPG, JPEG, PNG, WEBP and AVIF images are allowed.'));
   },
 });
 
-router.post("/", upload.single("image"), async (req, res) => {
+// POST /api/upload — protected: admin only
+router.post('/', protect, admin, upload.single('image'), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).send("Please upload an image.");
+      return res.status(400).json({ message: 'Please upload an image.' });
     }
 
-    const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder: "greenbasket/products",
-        resource_type: "image",
-      },
-      (error, result) => {
-        if (error) {
-          console.error("Cloudinary Upload Error:", error);
-          return res.status(500).send("Image upload failed.");
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: 'greenbasket/products',
+          resource_type: 'image',
+        },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
         }
+      );
 
-        // Return URL as a string to preserve the old API response format
-        return res.send(result.secure_url);
-      }
-    );
+      Readable.from(req.file.buffer).pipe(uploadStream);
+    });
 
-    Readable.from(req.file.buffer).pipe(uploadStream);
+    return res.status(200).json({ url: result.secure_url });
 
   } catch (error) {
-    console.error("Upload Error:", error);
-    res.status(500).send("Image upload failed.");
+    // Multer errors (file too large, wrong type, etc.)
+    if (error.name === 'MulterError' || error instanceof multer.MulterError) {
+      return res.status(400).json({ message: error.message });
+    }
+    console.error('Cloudinary Upload Error:', error);
+    return res.status(500).json({ message: 'Image upload failed. Please try again.' });
   }
 });
 

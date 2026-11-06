@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../api';
 import Hero from '../../components/user/Hero';
 import Services from '../../components/user/Services';
 import TopCategories from '../../components/user/TopCategories';
@@ -17,14 +17,13 @@ const Home = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get('https://green-basket-theta.vercel.app/api/products');
+        const { data } = await api.get('/api/products');
         setProducts(data.slice(0, 8));
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
-      setLoading(false);
     };
     fetchProducts();
   }, []);
