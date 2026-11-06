@@ -11,7 +11,7 @@ import axios from 'axios';
  *   const { data } = await api.post('/api/auth/login', payload);
  */
 const api = axios.create({
-  baseURL: import.meta.env._API_URL || 'https://green-basket-theta.vercel.app',
+  baseURL: import.meta.env.VITE_API_URL || 'https://green-basket-theta.vercel.app',
 });
 
 export default api;
