@@ -18,7 +18,7 @@ const createRazorpayOrder = async (req, res) => {
       order,
     });
   } catch (error) {
-    console.log(error);
+    console.error('Razorpay Order Error:', error);
 
     res.status(500).json({
       success: false,
@@ -55,7 +55,7 @@ const verifyPayment = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.error('Payment Verification Error:', error);
 
     res.status(500).json({
       success: false,

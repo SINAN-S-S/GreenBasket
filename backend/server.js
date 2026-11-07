@@ -14,22 +14,54 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const app = express();
 connectDB();
 
-// CORS — allow frontend origin explicitly
+// Build list of allowed origins (normalize trailing slashes)
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:3000',
+  'https://green-basket-j9h5.vercel.app',
+  'https://green-basket.vercel.app',
   process.env.FRONTEND_URL,
-].filter(Boolean);
+]
+  .filter(Boolean)
+  .map((url) => url.replace(/\/$/, ''));
 
-app.use(cors({
+const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (curl, mobile apps, Vercel serverless internal)
+    // Allow non-browser requests (curl, mobile apps, Vercel serverless internal)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error(`CORS: Origin ${origin} not allowed`));
+
+    const cleanOrigin = origin.replace(/\/$/, '');
+
+    // Allow only trusted origins or official GreenBasket preview deployments
+    const isAllowed =
+      allowedOrigins.includes(cleanOrigin) ||
+      /^https:\/\/green-basket(-[a-z0-9]+)*\.vercel\.app$/.test(cleanOrigin);
+
+    if (isAllowed) {
+      return callback(null, true);
+    }
+
+    // Reject gracefully without throwing a 500 unhandled Error
+    callback(null, false);
   },
   credentials: true,
-}));
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+};
+
+app.use(cors(corsOptions));
+
+// Ensure MongoDB is connected for serverless invocations
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 app.use(express.json());
 
@@ -47,8 +79,8 @@ app.get('/', (req, res) => {
 // Export app for Vercel serverless
 module.exports = app;
 
-// Start local dev server only when not running on Vercel
-if (!process.env.VERCEL) {
+// Start local dev server only when run directly and not on Vercel
+if (!process.env.VERCEL && require.main === module) {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

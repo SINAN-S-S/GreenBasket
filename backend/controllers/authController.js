@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
@@ -57,8 +58,6 @@ const registerUser = async (req, res) => {
     res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };
-
-const crypto = require('crypto');
 
 const forgotPassword = async (req, res) => {
   try {

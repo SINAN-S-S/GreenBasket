@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import api from '../../api';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../context/AuthContext';
-import { FiUser, FiMail, FiLock, FiSave, FiPackage, FiTruck, FiCheckCircle } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiSave, FiPackage, FiTruck, FiCheckCircle, FiEye, FiEyeOff } from 'react-icons/fi';
 import "../userCss/Profile.css";
 
 const Profile = () => {
@@ -12,6 +12,8 @@ const Profile = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   
@@ -220,12 +222,20 @@ const Profile = () => {
                     <FiLock />
                   </div>
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="New Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="profile-input"
+                    className="profile-input profile-input-pwd"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="profile-password-toggle"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                  </button>
                 </div>
 
                 <div className="profile-input-wrapper">
@@ -233,12 +243,20 @@ const Profile = () => {
                     <FiLock />
                   </div>
                   <input
-                    type="password"
+                    type={showConfirmPassword ? 'text' : 'password'}
                     placeholder="Confirm New Password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="profile-input"
+                    className="profile-input profile-input-pwd"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="profile-password-toggle"
+                    aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                  >
+                    {showConfirmPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                  </button>
                 </div>
               </div>
             </div>
